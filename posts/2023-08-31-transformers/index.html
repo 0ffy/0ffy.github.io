@@ -1,0 +1,989 @@
+<!doctype html><html lang=en dir=auto data-theme=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>GPT and Transformers | 0ffy</title><meta name=keywords content="llm,attention,transformer,llama"><meta name=description content="The release of ChatGPT on November 30, 2022 was a historical moment. In this post, GPT models are documented, along with several improvements over the transformer model.
+
+	
+			
+					Model
+					Date
+					Size
+			
+	
+	
+			
+					GPT
+					June 2018
+					117M
+			
+			
+					GPT-2
+					February 2019
+					1.5B
+			
+			
+					GPT-3
+					May 2020
+					175B
+			
+			
+					ChatGPT
+					Nov 2022
+					n/a
+			
+			
+					GPT-4
+					March 2023
+					n/a
+			
+	
+
+GPT-1
+The GPT-1 model 
+
+
+
+
+
+
+
+(
+
+          Citation: Radford, Narasimhan
+                  & al., 2018 
+
+
+
+
+
+
+
+
+
+
+Radford, 
+    
+    A., 
+  Narasimhan, 
+    
+    K., 
+  Salimans, 
+    
+    T., 
+  Sutskever, 
+    
+    I. & 
+   
+    (2018).
+   Improving language understanding by generative pre-training.
+
+
+
+
+)
+ was trained to output a probability distribution over the next token given the input context. The following likelihood objective is maximized on a corpus of training tokens $\{u_1,\ldots,u_n\}$ via stochastic gradient descent:
+$$
+L(\theta) = \sum_{i}\log \mathbb{P}_\theta(u_i \mid u_{i-k}\cdots u_{i-1})
+$$"><meta name=author content="0ffy"><link rel=canonical href=https://0ffy.github.io/posts/2023-08-31-transformers/><link crossorigin=anonymous href=/assets/css/stylesheet.bbcb81bd395d557a4d2437a9d2750e2089612449cf04ef59c962efba9a833410.css integrity="sha256-u8uBvTldVXpNJDep0nUOIIlhJEnPBO9ZyWLvupqDNBA=" rel="preload stylesheet" as=style><link rel=icon href=https://0ffy.github.io/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://0ffy.github.io/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://0ffy.github.io/favicon-32x32.png><link rel=apple-touch-icon href=https://0ffy.github.io/apple-touch-icon.png><link rel=mask-icon href=https://0ffy.github.io/apple-touch-icon.png><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=en href=https://0ffy.github.io/posts/2023-08-31-transformers/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51);color-scheme:dark}.list{background:var(--theme)}.toc{background:var(--entry)}}</style></noscript><script>localStorage.getItem("pref-theme")==="dark"?document.querySelector("html").dataset.theme="dark":localStorage.getItem("pref-theme")==="light"?document.querySelector("html").dataset.theme="light":window.matchMedia("(prefers-color-scheme: dark)").matches?document.querySelector("html").dataset.theme="dark":document.querySelector("html").dataset.theme="light"</script><link rel=stylesheet type=text/css href=/hugo-cite.css><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js onload='renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})'></script><script async src="https://www.googletagmanager.com/gtag/js?id=G-QV43D2GXK2"></script><script>var doNotTrack=!1,dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes";if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-QV43D2GXK2")}</script><meta property="og:url" content="https://0ffy.github.io/posts/2023-08-31-transformers/"><meta property="og:site_name" content="0ffy"><meta property="og:title" content="GPT and Transformers"><meta property="og:description" content="The release of ChatGPT on November 30, 2022 was a historical moment. In this post, GPT models are documented, along with several improvements over the transformer model.
+Model Date Size GPT June 2018 117M GPT-2 February 2019 1.5B GPT-3 May 2020 175B ChatGPT Nov 2022 n/a GPT-4 March 2023 n/a GPT-1 The GPT-1 model ( Citation: Radford, Narasimhan & al., 2018 Radford,  A.,  Narasimhan,  K.,  Salimans,  T.,  Sutskever,  I. &    (2018).  Improving language understanding by generative pre-training. ) was trained to output a probability distribution over the next token given the input context. The following likelihood objective is maximized on a corpus of training tokens $\{u_1,\ldots,u_n\}$ via stochastic gradient descent: $$ L(\theta) = \sum_{i}\log \mathbb{P}_\theta(u_i \mid u_{i-k}\cdots u_{i-1}) $$"><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2023-08-31T00:00:00+00:00"><meta property="article:modified_time" content="2023-08-31T00:00:00+00:00"><meta property="article:tag" content="Llm"><meta property="article:tag" content="Attention"><meta property="article:tag" content="Transformer"><meta property="article:tag" content="Llama"><meta property="og:image" content="https://0ffy.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://0ffy.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"><meta name=twitter:title content="GPT and Transformers"><meta name=twitter:description content="The release of ChatGPT on November 30, 2022 was a historical moment. In this post, GPT models are documented, along with several improvements over the transformer model.
+Model Date Size GPT June 2018 117M GPT-2 February 2019 1.5B GPT-3 May 2020 175B ChatGPT Nov 2022 n/a GPT-4 March 2023 n/a GPT-1 The GPT-1 model ( Citation: Radford, Narasimhan & al., 2018 Radford,  A.,  Narasimhan,  K.,  Salimans,  T.,  Sutskever,  I. &    (2018).  Improving language understanding by generative pre-training. ) was trained to output a probability distribution over the next token given the input context. The following likelihood objective is maximized on a corpus of training tokens $\{u_1,\ldots,u_n\}$ via stochastic gradient descent: $$ L(\theta) = \sum_{i}\log \mathbb{P}_\theta(u_i \mid u_{i-k}\cdots u_{i-1}) $$"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://0ffy.github.io/posts/"},{"@type":"ListItem","position":2,"name":"GPT and Transformers","item":"https://0ffy.github.io/posts/2023-08-31-transformers/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"GPT and Transformers","name":"GPT and Transformers","description":"The release of ChatGPT on November 30, 2022 was a historical moment. In this post, GPT models are documented, along with several improvements over the transformer model.\nModel Date Size GPT June 2018 117M GPT-2 February 2019 1.5B GPT-3 May 2020 175B ChatGPT Nov 2022 n/a GPT-4 March 2023 n/a GPT-1 The GPT-1 model ( Citation: Radford,\u0026#32;Narasimhan \u0026amp; al.,\u0026#32;2018 Radford,\u0026#32; A.,\u0026#32; Narasimhan,\u0026#32; K.,\u0026#32; Salimans,\u0026#32; T.,\u0026#32; Sutskever,\u0026#32; I.\u0026#32;\u0026amp;\u0026#32; \u0026#32; (2018). \u0026#32;Improving language understanding by generative pre-training. ) was trained to output a probability distribution over the next token given the input context. The following likelihood objective is maximized on a corpus of training tokens $\\{u_1,\\ldots,u_n\\}$ via stochastic gradient descent: $$ L(\\theta) = \\sum_{i}\\log \\mathbb{P}_\\theta(u_i \\mid u_{i-k}\\cdots u_{i-1}) $$\n","keywords":["llm","attention","transformer","llama"],"articleBody":"The release of ChatGPT on November 30, 2022 was a historical moment. In this post, GPT models are documented, along with several improvements over the transformer model.\nModel Date Size GPT June 2018 117M GPT-2 February 2019 1.5B GPT-3 May 2020 175B ChatGPT Nov 2022 n/a GPT-4 March 2023 n/a GPT-1 The GPT-1 model ( Citation: Radford, Narasimhan \u0026 al., 2018 Radford, A., Narasimhan, K., Salimans, T., Sutskever, I. \u0026 (2018). Improving language understanding by generative pre-training. ) was trained to output a probability distribution over the next token given the input context. The following likelihood objective is maximized on a corpus of training tokens $\\{u_1,\\ldots,u_n\\}$ via stochastic gradient descent: $$ L(\\theta) = \\sum_{i}\\log \\mathbb{P}_\\theta(u_i \\mid u_{i-k}\\cdots u_{i-1}) $$\nThe model $\\mathbb{P}_\\theta(\\cdot\\mid\\hat{\\bm{u}})$ is a 12-layer transformer: $$ \\begin{aligned} h_0\u0026=\\hat{\\bm{u}}W_e + W_p\\,\\Rightarrow\\, h_l=\\mathrm{tr}(h_{l-1})\\quad\\text{for }l=1\\ldots12\\\\ \\mathbb{P}(u)\u0026=\\mathrm{softmax}(h_{12}W_e^T) \\end{aligned} $$\nwhere $\\hat{\\bm{u}}=(u_{-k},\\ldots,u_{-1})$ is the context vector of tokens.\nGiven previous context, the simplest way to generate the next word $u_i$ is to assume that it only depends on its left neighbor $u_{i-1}$, count the occurrence of all words that come after $u_{i-1}$ in the training corpus, and then select the word with the highest frequency. This is the 2-gram model. To model context dependence, something more sophisticated is needed. The Attention model ( Citation: Bahdanau, Cho \u0026 al., 2014 Bahdanau, D., Cho, K. \u0026 Bengio, Y. (2014). Neural machine translation by jointly learning to align and translate. arXiv preprint arXiv:1409.0473. ) is the exact opposite of the Markov assumption of context independence. It is a simple and efficient way to pay attention to previous context when generating the next word. In attention model, $u_i$ is a weighted sum of all the words in its context:\n$$ u_i = \\hat{\\bm{\\alpha}}\\cdot\\hat{\\bm{v}} = \\alpha_1 v_{i-1} + \\alpha_2 v_{i-2} + \\cdots + \\alpha_k v_{i-k}, $$\nwhere the weight $\\alpha_i$ represents how much the output should pay attention to $u_i$, and $v_k=Vu_{i-k}$ with learnable parameter matrix $V$. The Transformer model ( Citation: Vaswani, Shazeer \u0026 al., 2017 Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A., Kaiser, Ł. \u0026 Polosukhin, I. (2017). Attention is all you need. Advances in neural information processing systems, 30. ) is attention layer plus residual layer, linear layer and normalization. These extra components are indispensable:\nResidual connections ensure that gradients can directly flow backward from output to input. Without it convergence can be difficult. Normalization addresses over-fitting and ensures robust learning. Without it training loss can explode. Linear layers add more parameters, increasing model capacities. Without it the loss will be higher, performance will be much worse. GPT-1 was applied to downstream classification tasks by mapping the final vector of the final hidden layer via learnable weights to distributions over class labels, and log-likelihood is maximized over labeled data.\nGPT-2 The GPT-2 ( Citation: Radford, Wu \u0026 al., 2019 Radford, A., Wu, J., Child, R., Luan, D., Amodei, D., Sutskever, I. \u0026 (2019). Language models are unsupervised multitask learners. OpenAI blog, 1(8). 9. ) model architecture follows GPT-1, with the following differences:\nGPT-2 was trained on a much larger dataset. GPT model was trained on the BooksCorpus dataset ( Citation: Zhu, Kiros \u0026 al., 2015 Zhu, Y., Kiros, R., Zemel, R., Salakhutdinov, R., Urtasun, R., Torralba, A. \u0026 Fidler, S. (2015). Aligning books and movies: Towards story-like visual explanations by watching movies and reading books. ) . GPT-2 was trained on WebText, which contains 8 million documents with a size of 40 GB. In GPT-2, layer normalization was moved to the beginning, rather than the end of each sub-block. An additional layer normalization was added after the final self-attention block. Context size was increased from 512 to 1024 tokens. These changes played very important roles in improving model performance. Significance of GPT-2 lies in its zero-shot abilities.\nGPT-3 GPT-3 ( Citation: Brown, Mann \u0026 al., 2020 Brown, T., Mann, B., Ryder, N., Subbiah, M., Kaplan, J., Dhariwal, P., Neelakantan, A., Shyam, P., Sastry, G., Askell, A. \u0026 (2020). Language models are few-shot learners. Advances in neural information processing systems, 33. 1877–1901. ) largely shares the same architecture as GPT-2, but is significantly larger, with 175B parameters. Alternating dense and sparse attention patterns were used in transformer layers, similar to the Sparse Transformer. An extensive series of experiments were conducted, and the GPT-3 model achieved strong performances across multiple tasks. The experiments strongly supported scaling as a crucial way to obtain better performance.\nInstructGPT GPT-3 is optimized to produce web-like documents. If you give the model an instruction, like “explain …. to me”, it will not know how to respond to this particular instruction, but instead it is likely to produce something that looks like articles that contain similar sentences in the training data. In OpenAI’s term, the model is misaligned.\nInstructGPT ( Citation: Ouyang, Wu \u0026 al., 2022 Ouyang, L., Wu, J., Jiang, X., Almeida, D., Wainwright, C., Mishkin, P., Zhang, C., Agarwal, S., Slama, K., Ray, A. \u0026 (2022). Training language models to follow instructions with human feedback. Advances in neural information processing systems, 35. 27730–27744. ) addresses this problem by resorting to supervised fine-tuning. Step 1 is to fine-tune on high quality human-crafted instruction-response dataset. Step 2 is to train a reward model, and step 3 is to train the model to maximize reward model output. The last two steps are called Reinforcement Learning with Human Feedback (RLHF), which proves to be an effective way of aligning model to human instructions. It shares similarity with GAN, in which a generative model is trained to optimize output score from a discriminative model. In GAN the two models are trained concurrently. Here in InstructGPT the two models are trained separately.\nHere are the methods in detail:\nFirst, a pre-trained GPT-3 model is fine-tuned on prompt-response dataset created by 40 labelers. The dataset contains about 13k training prompts. The fine-tuned model is called SFT (which stands for “Supervised Fine-Tuning”).\nSecond, given a prompt, sample several outputs (from $K=4$ to $K=9$) from the model. A human labeler then ranks the outputs. Collect such human ranking dataset, and train a reward model (RM) on the dataset. In the paper, the RM model is a GPT-3 model with 6B parameters. The training objective is the pairwise ranking loss\n$$ \\text{loss}(\\theta) = -\\frac{1}{K \\choose 2} E_{(x, y_w, y_l)\\sim D}[\\log(\\sigma(r_\\theta(x,y_w) - r_\\theta(x, y_l)))] $$\nwhere $r_\\theta(x, y)$ is the scalar output of the reward model for prompt $x$ and completion $y$ with parameters $\\theta$, $y_w$ is the preferred completion out of the pair of $y_w$ and $y_l$, and $D$ is the dataset of human comparisons. The RM dataset has 33k training prompts.\nFinally, fine-tune the SFT model again, such that its output will have a high reward score from the RM model. This is called Proxy Policy Optimization (PPO) in the paper, which is about optimizing (maximizing) the following objective: $$ \\text{objective}(\\phi) = E_{(x,y)\\sim D_{\\pi_\\phi^{RL}}}[r_\\theta(x,y) - \\beta\\log\\left(\\pi_\\phi^{RL}(y\\mid x) / \\pi^{SFT}(y\\mid x)\\right)] + \\gamma E_{x\\sim D_{\\text{pretrain}}}[\\log(\\pi_\\phi^{RL}(x))]. $$\nHere, $\\pi^{SFT}$ is the fine-tuned model from step 1, which is kept fixed, and $\\pi_{\\phi}^{RL}$ (called “RL policy”) is a copy of $\\pi^{SFT}$ whose parameters are going to be updated by training. $x$ is prompt, and $y$ is the response output from the model.\nThe first term is the main objective we want to maximize. Note that, sampling comes from the model we are training, rather than a fixed dataset. After gradient updates, the sample distribution will be different.\nThe second term (negative KL divergence between distribution $\\pi_\\phi^{RL}(y\\mid x)$ and $\\pi^{SFT}(y\\mid x)$) is a regularization term that penalizes deviation from the fine-tuned model from step 1. This is added to avoid losing all the information stored in the weights of the fine-tuned model.\nThe third term is also a regularization term. It is the objective of language modeling (maximizing log likelihood on next word). This is to prevent the model from focusing too much on increasing $r_\\theta(x,y)$ and forgetting about next-word generation.\nA Transformer block consists of an attention layer, two normalization layers, residual connections and a feedforward layer. Many models like Llama are usually made of 32 transformer blocks stacked together, plus normalization and linear projection at the end. A transformer layer is a “cube”, meaning that the input and the output have the same shape: N vectors in, N vectors out.\nFor language modeling (next-token prediction), each output vector $i=1,\\ldots,N$ will be mapped to an unnormalized logit vector with length vocab_size that represents the predicted distribution over the next token, given the attention with previous tokens. During training, the logit for ground truth will be maximized for each token in the sentence. For example, with “I eat apple with happiness”, we will maximize “eat” given “I”, maximize “apple” given “I eat”, etc. In inference though, only the final vector (\"out[-1]\") in the output tensor is needed, and we map the final output vector to logits to predict the next token.\nAmong transformer’s components, the attention layer is the most important one.\nThe attention layer As with a transformer layer, we can also think of an attention layer as a cube, because the output of an attention layer has the same shape as its input: it takes a sequence of embedding vectors as input, and output an updated version of those input embeddings, where each updated vector now attends to all other vectors in the sequence (including itself), or in the case of autoregressive modeling, attends to all previous vectors in the sequence (including itself).\nAn attention layer has three matrices as parameters: query matrix, key matrix, and value matrix, each has shape $d\\times d$, where $d$ is the token embedding dimension. Let’s take $d=2$, so that we can see the essence more clearly. In this case, we have three $2\\times2$ matrices, for a total of 12 parameters. We have:\nthe 2x2 query matrix $Q$ transforms any input vector $v\\in\\mathbb{R}^2$ to a query vector $q_v\\in \\mathbb{R}^2$. the 2x2 key matrix $K$ transforms any input vector to a key vector in $\\mathbb{R}^2$. the 2x2 query matrix $V$ transforms any input vector to a value vector in $\\mathbb{R}^2$. Let’s walk through the attention calculation. The input is a sequence of $N$ tokens, each embedded as a 2d vector. The input tensor is then an $N\\times2$ matrix. Apply the three matrix multiplications, we get\nNx2 query tensor, Nx2 key tensor, Nx2 value tensor, where each row is a 2d embedding vector.\nFor each vector, we want to update itself as a weighted sum of all the vectors in the sequence (including itself), weighted by cosine similarity (dot product).\n$$v = \\sum\\alpha_jv_j$$ $$\\alpha_j =v_i \\cdot v_j \\quad\\Rightarrow\\quad \\alpha_j=e^{v_i \\cdot v_j}/\\sum e^{v_i \\cdot v_j}\\,\\text{(normalize)}$$\nThe query tensor (Nx2) times the transpose of the key tensor (2xN) is an NxN matrix of dot products between each pair of vector in the sequence of length N.\nAttention calculation - query and key tensor product to score matrix. Image source: author\nEach row is a list of similarity measures between the token $i$ with all other tokens in the sequence. If we don’t want token $i$ to attend to subsequent tokens, then we change those similarity scores to $-\\infty$, since $e^{-\\infty} = 0$. Otherwise, as in BERT, we leave them unchanged. Applying softmax row-wise, we get normalized weights for each token $i$.\nNote that it is in this sense that the attention layer can handle sequences of arbitrary length: the N just gets larger, the score matrix gets larger (grow O(N^2)), though there are only three 2x2 parameter matrices Q, K and V for a total of 12 parameters.\nNote that softmax per se is not a linear operation. For an input vector $v$, $\\mathrm{sm}(v)$ apply $e^{(\\cdot)}$ to each element in $v$ and then normalize them by the sum of the exponentials. It is not true that $\\mathrm{sm}(v + w) = \\mathrm{sm}(v) + \\mathrm{sm}(w)$.\nAfter that, we just multiply the score matrix with the value tensor. Each row $i$ in the output is then an updated version of token $i$’s’ embedding.\nAttention calculation - multiply score matrix with value tensor to get updated embeddings. Image source: author\nSo this is the vanilla attention. In practice there are several additional variants:\nSince we multiply an $N\\times N$ square matrix with the $N\\times d_v$ value tensor, the dimension of the value vectors $d_v$ can be different, i.e. they don’t have to be 2, but can be 3, 4, or whatever. This means the value matrix $V$ can have shape $2\\times d_v$, that maps each 2d token embedding to a $d_v$-dimensional vector. The queriy and key vectors though, should have the same dimension for dot product. The attention layer we just illustrated is called single head attention, with one 2x2 key matrix, one 2x2 query matrix and one 2x2 value matrix as parameters. Similar to mapping an image with 3 channels to multiple channels with multiple kernels in convolutional layer in CNN, one may want to use multiple Q, K and V matrices to perform the attention calculation multiple times and concatenate the output from multiple calculations, in order to capture different aspects of an input sequence. This is called “multi-head attention”. It is also called self-attention because each token attends to other tokens within the same sequence. If, for example, the key vectors come from outside sources, for example image embeddings obtained from an image encoder, then it is called cross attention. SwiGLU layer SwiGLU ( Citation: Shazeer, 2020 Shazeer, N. (2020). Glu variants improve transformer. arXiv preprint arXiv:2002.05202. ) is an improvement over the feed forward layer in transformers. A feed forward layer, also called a fully connected (FC) layer or multi-layer perceptron (MLP), is defined as $$ \\mathrm{FFN}(x, W_1, W_2, b_1, b_2) = W_2f(W_1x + b_1) + b_2, $$\nwhere $f$ is the nonlinear activation function applied element-wise to its input vector. The most commonly used one is the ReLU activation function $f(x) = \\max(0, x)$.\nThe Swish function ( Citation: Ramachandran, Zoph \u0026 al., 2017 Ramachandran, P., Zoph, B. \u0026 Le, Q. (2017). Searching for activation functions. arXiv preprint arXiv:1710.05941. ) , also called Sigmoid Linear Unit (SiLU), is defined as $f_\\beta(x) = x\\cdot\\sigma(\\beta x)$, where $\\sigma(x)$ is the sigmoid function\n$$ \\sigma(x) = \\frac{1}{1 + e^{-x}}. $$\nAs $\\beta\\to0$, the function approaches the linear function $\\frac{1}{2}x$. As $\\beta\\to\\infty$, $\\sigma(x)$ approaches either $0$ or $1$, so the Swish function approaches the ReLU function. It is common to set $\\beta=1$. The most unique aspect of the Swish function is the non-monotonic “bump” at $x\u003c0$.\nSwish functions and their derivatives. Image source: author\nGated Linear Units (GLU) refers to multiplying the vector coming out of the nonlinear activation function $f(W_1x)$ by a linear transformation of the input vector $x$, in element-wise fashion. This is denoted as\n$$ f(W_1x) \\otimes W_3x. $$\nNow, the SwiGLU layer is\n(1) feed forward layer without bias, plus\n(2) GLU, plus\n(3) the Swish function $f(x)=x\\cdot\\sigma(x)$ as activation function:\n$$ \\mathrm{SwiGLU}(x,W_1, W_2, W_3) = W_2(\\mathrm{Swish}_1(W_1x) \\otimes W_3x) $$\n1 2 3 4 5 6 7 8 9 class FeedForward(nn.Module): def __init__(self, dim: int, hidden_dim: int): super().__init__() self.w1 = Linear(dim, hidden_dim, bias=False, ...) self.w2 = Linear(hidden_dim, dim, bias=False, ...) self.w3 = Linear(dim, hidden_dim, bias=False, ...) def forward(self, x): return self.w2(F.silu(self.w1(x)) * self.w3(x)) RMSNorm layer Neural network training is sensitive to parameter initialization and hyperparameter tuning. Batch normalization ( Citation: Ioffe \u0026 Szegedy, 2015 Ioffe, S. \u0026 Szegedy, C. (2015). Batch normalization: Accelerating deep network training by reducing internal covariate shift. pmlr. ) was proposed to make the training process more robust and less dependent on such hyperparameter tuning. The method can make training converge faster, thus reducing training time. When it was first proposed it achieved the best accuracy on ImageNet classification task. For each mini-batch, batch normalization first calculates mean and variance statistics over the mini-batch, then subtracts the mean and scales by the variance for each data point in the mini-batch. We can represent the batch normalization layer as\n$$ \\mathrm{BN}(x) = \\frac{x - \\mathbb{E}_{x\\sim\\mathcal{B}}x}{\\sqrt{\\mathrm{var}(x) + \\epsilon}}, $$\nwhere the mean and variance statistics are calculated over a batch $\\mathcal{B}$.\nLayer normalization ( Citation: Ba, Kiros \u0026 al., 2016 Ba, J., Kiros, J. \u0026 Hinton, G. (2016). Layer normalization. arXiv preprint arXiv:1607.06450. ) was first proposed to apply the same idea to recurrent neural networks (RNN), where an layer may take only one input vector at a time. Layer normalization is “orthogonal” to batch normalization. Instead of looking at the data distribution across a batch, it calculates mean and variance statistics across all dimensions of an input vector, and normalize each dimension with the calculated mean and variance. Layer normalization can be represented as\n$$ \\mathrm{LN}(x) = \\frac{x - \\mathbb{E}x_j}{\\sqrt{\\mathrm{var}(x_j) + \\epsilon}}g, $$\nwhere the mean and variance statistics are calculated over $x=(x_1,\\ldots, x_j, \\ldots, x_n)\\in\\R^n$. $g\\in\\R^n$ is a trainable parameter used for scaling that is set to $(1,\\ldots,1)$ at the beginning.\nRooted Mean Square Normalization (RMSNorm) ( Citation: Zhang \u0026 Sennrich, 2019 Zhang, B. \u0026 Sennrich, R. (2019). Root mean square layer normalization. Advances in Neural Information Processing Systems, 32. ) focuses only on scaling invariance:\n$$ \\mathrm{RMSNorm}(x) = \\frac{x}{\\|x\\|/\\sqrt{n}}g, $$\nwhere $\\|x\\| = \\sqrt{x_1^2 + \\cdots + x_n^2}$. The output is thus confined to a sphere with radius $\\sqrt{n}$.\n1 2 3 4 5 6 7 8 9 10 11 12 class RMSNorm(nn.Module): def __init__(self, dim: int, eps: float = 1e-6): super().__init__() self.eps = eps self.weight = nn.Parameter(torch.ones(dim)) def _norm(self, x): return x * torch.rsqrt(x.pow(2).mean(-1, keepdim=True) + self.eps) def forward(self, x): output = self._norm(x) return output * self.weight Rotary Position Embedding (RoPE) Without position encoding and casual mask, self-attention is permutation equivariant, but not strictly invariant. If input token sequence $X=(x_1,\\ldots,x_n)$ is permuted as $P(X)$, the output will be permuted in the same way: $$ \\mathrm{Attn}(P(X)) = P(\\mathrm{Attn}(X)) $$ This is because queries, keys, values are shuffled the same way, and attention scores permute consistently.\nIt is desirable to add position information to tokens so that the model can distinguish token order. In the original Transformer paper ( Citation: Vaswani, Shazeer \u0026 al., 2017 Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A., Kaiser, Ł. \u0026 Polosukhin, I. (2017). Attention is all you need. Advances in neural information processing systems, 30. ) , the authors proposed adding absolute position encoding to each input vector: $$ x_i = x_i + p_i $$ where $$ \\begin{cases} p_{i, 2t}\u0026= \\sin(i/10000^{2t/d}),\\newline p_{i, 2t+1}\u0026= \\cos(i/10000^{2t/d}). \\end{cases} $$ Note $p_{pos, j}\\in[-1, 1]$ since sine and cosine have range $[-1, 1]$. See below for an example of encoding vector at position $m=10$ with dimension $d=512$.\nExample of position encoding in the original transformer paper\nRotary Position Embedding\nRotary position embedding ( Citation: Su, Lu \u0026 al., 2021 Su, J., Lu, Y., Pan, S., Murtadha, A., Wen, B. \u0026 Liu, Y. (2021). Roformer: Enhanced transformer with rotary position embedding. arXiv preprint arXiv:2104.09864. ) is an alternative to additive position encoding. It is multiplicative, instead of additive. And it applies to the key and query vectors, rather than the input vectors. Let’s first see it in 2D case. Suppose we embedded each word token to a 2d vector, and calculated the query and key vectors. The RoPE method rotates each query or key vector with a rotation matrix. Take the query vector $q = (q_1, q_2)^T\\in\\mathbb{R}^2$ as an example:\n$$\\tag{🌟} \\hat{q} = \\begin{pmatrix}\\cos m\\theta \u0026 -\\sin m\\theta \\newline \\sin m\\theta \u0026 \\cos m\\theta\\end{pmatrix}\\begin{pmatrix}q_1\\newline q_2\\end{pmatrix} = \\begin{pmatrix} q_1\\cdot\\cos m\\theta - q_2\\cdot\\sin m\\theta \\newline q_1\\cdot\\sin m\\theta + q_2\\cdot\\cos m\\theta\\end{pmatrix} $$ where $m$ is the position and $\\theta$ is a preset small non-zero constant. Word vectors in different positions are rotated with different amounts according to $m\\theta$. To generalize to $d$ dimensions, where $d$ has to be an even number, the method applies rotation matrices to each 2 dimension pairs, for a total of $d/2$ pairs. Specifically, the transformation matrix is a block matrix where each block is a 2d rotation matrix: $$ \\begin{pmatrix} \\cos m\\theta_1 \u0026 -\\sin m\\theta_1 \u0026 0 \u0026 0 \u0026 \\cdots \u0026 0 \u0026 0 \\newline \\sin m\\theta_1 \u0026 \\cos m\\theta_1 \u0026 0 \u0026 0 \u0026 \\cdots \u0026 0 \u0026 0 \\newline \\vdots \u0026 \\vdots \u0026 \\vdots \u0026 \\vdots \u0026 \\ddots \u0026 \\vdots \u0026 \\vdots \\newline 0 \u0026 0 \u0026 \\cdots \u0026 0 \u0026 0 \u0026 \\cos m\\theta_{d/2} \u0026 -\\sin m\\theta_{d/2} \\newline 0 \u0026 0 \u0026 \\cdots \u0026 0 \u0026 0 \u0026 \\sin m\\theta_{d/2} \u0026 \\cos m\\theta_{d/2}\\newline \\end{pmatrix} $$ and the angles are pre-defined with $\\{\\theta_i = 10000^{-2(i-1)/d}, i=1,\\ldots,d/2\\}$.\nImplementing RoPE as matrix multiplication takes lots of memories when $d$ is large. Representing each 2d sub-vector pair as a complex number will let us avoid matrix computation. Let’s re-focus on the 2d case. The 2d rotation matrix has close connections with arithmetics in the 2d complex plane. Recall Euler’s formula $$ e^{i\\theta} = \\cos\\theta + i\\sin\\theta. $$\nFor a complex number $q_1 + q_2i$, $$ \\begin{split} (q_1 + q_2i)e^{im\\theta} \u0026= (q_1 + q_2i)(\\cos m\\theta + i\\sin m\\theta)\\newline \u0026= (q_1\\cdot\\cos m\\theta - q_2\\cdot\\sin m\\theta) + (q_1\\cdot\\sin m\\theta + q_2\\cdot\\cos m\\theta)i. \\end{split} $$\nThe real and imaginary parts of this complex number are exactly the first and second entry of the transformed query vector above (🌟). So to get the rotary embedding for vector $q$, first view it as a complex number, multiply it by $e^{im\\theta}$, then assemble the real and imaginary parts as the position encoded vector.\nHere are the implementation steps for one single 2d query vector $q$ with position $m$:\nView the 2d vector $q=(q_1, q_2)^T$ as a complex number $q_1 + q_2i$, where the first entry is the real part, and the second entry is the imaginary part. In PyTorch, this is 1 q = torch.view_as_complex(q) Multiply the vector by $e^{im\\theta}$. In PyTorch, $e^{im\\theta}$ is torch.polar(1, mθ). 1 q = q * torch.polar(1, mθ) Get the real part and the imaginary part of this complex number. In PyTorch, this is 1 q_out = torch.view_as_real(q) Here are the steps for $d$ dimensional query/key vectors , for all positions $m=0,\\ldots,N-1$, with Llama source code as reference. The input will have dimension (batch_size, seqlen, n_heads, head_dim).\ndim meaning 0 batch size 1 sequence length 2 number of heads 3 head dimension View each vector as a group of $d/2$ complex numbers. View dimension $(1, 2)$ as a complex number, dimension $(3, 4)$ as a complex number……and so on. torch.view_as_complex expects the last dimension of its input to be of size 2, so we first reshape the input tensor as a list of 2 number pairs, then get the list of complex numbers via view_as_complex: 1 q_ = torch.view_as_complex(q.reshape(*q.shape[:-1], -1, 2)) Multiply the first complex number by $e^{im\\theta_1}$, multiply the second complex number by $e^{im\\theta_2}$, and so on, until multiply the final complex number by $e^{im\\theta_{d/2}}$. The complex numbers $\\{e^{im\\theta_1},e^{im\\theta_2},\\ldots,e^{im\\theta_{d/2}}\\}$ for all $m=0,\\ldots,N-1$ are prepared by 1 2 3 4 5 6 7 8 9 10 def compute_exps(dim: int, N: int): # This line prepares all the thetas {\\theta_i = 10000^{-2(i-1)/d}, i=1,...,d/2}. The dimension of the output tensor `thetas` will be d/2, half the dimension of input x. thetas = 1.0 / (10000.0 ** (torch.arange(0, dim, 2) / dim)) # This line prepares all the positions (0,1,...,N-1). m = torch.arange(N, device=thetas.device) # This line prepares all the angles $m\\theta_i$, for all m and all i. For two tensors a and b with size N and d/2, `torch.outer(a, b)` is a^Tb, so the output has dimension Nx(d/2). angles = torch.outer(m, thetas).float() # This line computes {e^{im\\theta_i}}, for all m and all \\theta_i. Thus the output of the `compute_exps` function is a matrix, where each row is {e^{im\\theta_1},e^{im\\theta_2},...,e^{im\\theta_{d/2}}} for a particular position m, for all positions m=0,...,N-1. exps = torch.polar(torch.ones_like(angles), angles) # complex64 return exps For each 2d dimension pair $(1, 2), (3,4), \\ldots, (d-1, d)$, we have computed a complex number $q\\cdot e^{im\\theta}$, for a total number of $d/2$. Now we get the real and imaginary part of each complex number, and stack all of them together to get the output. torch.view_as_real is the inverse operation of torch.view_as_complex. That means the last dimension of the output from torch.view_as_real will be 2. That’s why we need to call .flatten(3) to flatten the last dimension (remember from the input dimension table above that 3 is the last input shape position). 1 2 3 4 5 6 7 def apply_rotary_emb(q, k, exps): q_ = torch.view_as_complex(q.float().reshape(*q.shape[:-1], -1, 2)) k_ = torch.view_as_complex(k.float().reshape(*k.shape[:-1], -1, 2)) exps = reshape_for_broadcast(exps, q_) q_out = torch.view_as_real(q_ * exps).flatten(3) k_out = torch.view_as_real(k_ * exps).flatten(3) return q_out, k_out Although RoPE is claimed to be a relative position embedding method, meaning that the similarity measure $\\hat{q}_m\\cdot\\hat{k}_n$ between the position encoded query $\\hat{q}_m$ and key $\\hat{k}_n$ only depends on $m-n$, their relative position $m-n$, not their absolute positions, in RoPE implementation rotations to each query and key vector are applied according to their absolute positions $m$ and $n$ in the sequence, before $\\hat{q}_m\\cdot\\hat{k}_n$ is computed. In this sense, RoPE is not true relative position embedding. Also, RoPE has long term decay property: the dot product of two position encoded vectors approaches zero as their distance increases. The assumption that a pair of long distance tokens should have less connection may not be desirable in applications involving long documents, e.g. contracts, legal documents, and financial reports.\nALiBi position embedding Attention with Linear Biases (ALiBi) ( Citation: Press, Smith \u0026 al., 2021 Press, O., Smith, N. \u0026 Lewis, M. (2021). Train short, test long: Attention with linear biases enables input length extrapolation. arXiv preprint arXiv:2108.12409. ) is an even simpler method to encode position information.\nALiBi positional embedding. Image source: paper\n$m$ is a fixed scalar and is not learned. Ignoring $m$ for a second, the above figure has clear illustration of the method: biases $(-(N-1), \\ldots, -2, -1, 0)$ are added to query and key dot products before applying softmax. For example, $-5$ is added to $q_5\\cdot k_1$, $-1$ is added to $q_5\\cdot k_4$, no bias is added to $q_5\\cdot k_5$, and so on. There is no other positional encoding added elsewhere. Clearly, as distance gets larger, the negative bias will get large, and $\\exp\\{q\\cdot k - N\\}$ will decay to $0$ very fast as $N\\to\\infty$, resulting in 0 score and thus no lookups to distant tokens when generating the next token. As for RoPE, this property may not be desirable in real applications where one wants an LLM to process professional, long and complicated documents.\nFlash Attention Flash Attention ( Citation: Dao, Fu \u0026 al., 2022 Dao, T., Fu, D., Ermon, S., Rudra, A. \u0026 Ré, C. (2022). FlashAttention: Fast and memory-efficient exact attention with io-awareness. Advances in Neural Information Processing Systems, 35. 16344–16359. ) is a technique for speeding up attention computation on Nvidia GPUs for long sequences. There exists a memory heirarchy on GPU: high bandwidth memory (HBM) takes the bulk of GPU memory, but it is slower compared to SRAM, which is far smaller in size but is a dozen times faster than HBM.\nGPU memory hierarchy\nMemory usage grows quadratically with the sequence length $N$. As $N$ goes to thousands and beyond, the attention matrix $QK^T$ will occupy a lot of space in GPU memory. Masking, softmax and dropout computation all require reading and writing the $N\\times N$ attention matrix. It turns out that those memory reads/writes take up most of the computation time, much more than the actual matrix multiplication $QK^T$.\nTo reduce memory i/o, and to take advantage of SRAM’s fast speed, the authors proposed two techniques:\nTiling. This refers to loading partial blocks of the attention matrix from HBM to SRAM, computing attention on SRAM for such blocks, then finally concatenating the results by the correct scaling factors. This technique utilizes that fact that for a matrix $A = [A_1, A_2]$ that consists of two sub-matrices $A_1$ and $A_2$, the softmax of $A$ can be written as $$ \\mathrm{softmax}([A_1, A_2]) = [\\alpha\\cdot\\mathrm{softmax}(A_1), \\beta\\cdot\\mathrm{softmax}(A_2)] $$ for some scaling factors $\\alpha$ and $\\beta$, and $$ \\mathrm{softmax}([A_1, A_2])\\begin{bmatrix}V_1\\newline V_2\\end{bmatrix} = \\alpha\\cdot\\mathrm{softmax}(A_1)V_1 + \\beta\\cdot\\mathrm{softmax}(A_2)V_2, $$\nRecomputation. During the backward pass, the attention matrix is needed for computing gradients of the weights, and again, reading this large matrix from HBM memory would be slow. The recomputation technique is straightforward: do not store the $N\\times N$ attention matrix from forward pass (only store $N$ softmax normalizing factors), but recompute it in the backward pass. This incurs additional floating point operations (flops), but the runtime is reduced even with increased flops.\nAttention Standard FlashAttention GFLOPs 66.6 75.2 HBM R/W (GB) 40.3 4.4 Runtime (ms) 41.7 7.3 Source: ( Citation: Dao, Fu \u0026 al., 2022 Dao, T., Fu, D., Ermon, S., Rudra, A. \u0026 Ré, C. (2022). FlashAttention: Fast and memory-efficient exact attention with io-awareness. Advances in Neural Information Processing Systems, 35. 16344–16359. ) For the same sequence length $N$, Flash Attention allows faster computation compared with traditional attention. In other words, this means that for the same training time budget, one can train models that are capable of dealing with longer contexts.\nPyTorch code The Transformer layer can be summarized into two equations: $$ \\begin{align} x \u0026= x + \\mathtt{attn}(\\mathtt{n}_1(x))\\\\ x \u0026= x + \\mathtt{ff}(\\mathtt{n}_2(x)) \\end{align} $$\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 import torch import torch.nn as nn import torch.nn.functional as F import math class SelfAttention(nn.Module): def __init__(self, d_model, n_heads): super().__init__() assert d_model % n_heads == 0 self.d_model = d_model self.n_heads = n_heads self.d_head = d_model // n_heads self.qkv = nn.Linear(d_model, 3 * d_model) self.out = nn.Linear(d_model, d_model) self.rope = RotaryEmbedding() def forward(self, x, mask=None): B, T, C = x.shape # B=batch, T=len(seq), C=channels (embedding dim) qkv = self.qkv(x) # (B, T, 3C) q, k, v = qkv.chunk(3, dim=-1) # reshape to heads q = q.view(B, T, self.n_heads, self.d_head).transpose(1, 2) # process multi-heads as batch =\u003e compute in parallel k = k.view(B, T, self.n_heads, self.d_head).transpose(1, 2) v = v.view(B, T, self.n_heads, self.d_head).transpose(1, 2) q, k = self.rope(q, k) att = (q @ k.transpose(-2, -1)) / math.sqrt(self.d_head) # [Txd] x [dxT] = [TxT] if mask is not None: att = att.masked_fill(mask == 0, float(\"-inf\")) att = F.softmax(att, dim=-1) out = att @ v # [TxT] x [Txd] = (B, heads, T, d) out = out.transpose(1, 2).contiguous().view(B, T, C) return self.out(out) class TransformerBlock(nn.Module): def __init__(self, d_model, n_heads, d_ff): super().__init__() self.attn = SelfAttention(d_model, n_heads) self.norm1 = nn.LayerNorm(d_model) self.ff = nn.Sequential( nn.Linear(d_model, d_ff), nn.ReLU(), nn.Linear(d_ff, d_model) ) self.norm2 = nn.LayerNorm(d_model) def forward(self, x, mask=None): x = x + self.attn(self.norm1(x), mask) x = x + self.ff(self.norm2(x)) return x class Transformer(nn.Module): def __init__(self, vocab_size, d_model=512, n_heads=4, n_layers=12, d_ff=256): super().__init__() self.token_emb = nn.Embedding(vocab_size, d_model) self.layers = nn.ModuleList([ TransformerBlock(d_model, n_heads, d_ff) for _ in range(n_layers) ]) self.norm = nn.LayerNorm(d_model) self.unembedding = nn.Linear(d_model, vocab_size, bias=False) def forward(self, idx): x = self.token_emb(idx) for layer in self.layers: x = layer(x) x = self.norm(x) return self.unembedding(x) @staticmethod def from_checkpoint(path): model = Transformer() model.load_state_dict(torch.load(path)) return model class TokenGenerator: @torch.inference_mode() def __init__(self, checkpoint: str, device: torch.device): self.device = device self.model = Transformer.from_checkpoint(checkpoint, device=self.device) @torch.inference_mode() def generate(self, prompt_tokens: list[int], stop_tokens: list[int], temperature: float = 1.0, max_tokens: int = 0, return_logprobs: bool = False): tokens = list(prompt_tokens) num_generated_tokens = 0 while max_tokens == 0 or num_generated_tokens \u003c max_tokens: logits = self.model(torch.as_tensor(tokens, dtype=torch.int32, device=self.device))[-1] if temperature == 0.0: predicted_token = torch.argmax(logits, dim=-1).item() else: probs = torch.softmax(logits * (1.0 / temperature), dim=-1) predicted_token = torch.multinomial(probs, num_samples=1).item() tokens.append(predicted_token) num_generated_tokens += 1 if return_logprobs: logprobs = torch.log_softmax(logits, dim=-1) selected_logprobs = logprobs[predicted_token].item() yield predicted_token, selected_logprobs else: yield predicted_token if predicted_token in stop_tokens: break References [1] Press, O., Smith, N. \u0026 Lewis, M. (2021). Train short, test long: Attention with linear biases enables input length extrapolation. arXiv preprint arXiv:2108.12409. [2] Bahdanau, D., Cho, K. \u0026 Bengio, Y. (2014). Neural machine translation by jointly learning to align and translate. arXiv preprint arXiv:1409.0473. [3] Ioffe, S. \u0026 Szegedy, C. (2015). Batch normalization: Accelerating deep network training by reducing internal covariate shift. pmlr. [4] Zhu, Y., Kiros, R., Zemel, R., Salakhutdinov, R., Urtasun, R., Torralba, A. \u0026 Fidler, S. (2015). Aligning books and movies: Towards story-like visual explanations by watching movies and reading books. [5] Dao, T., Fu, D., Ermon, S., Rudra, A. \u0026 Ré, C. (2022). FlashAttention: Fast and memory-efficient exact attention with io-awareness. Advances in Neural Information Processing Systems, 35. 16344–16359. [6] Radford, A., Narasimhan, K., Salimans, T., Sutskever, I. \u0026 (2018). Improving language understanding by generative pre-training. [7] Radford, A., Wu, J., Child, R., Luan, D., Amodei, D., Sutskever, I. \u0026 (2019). Language models are unsupervised multitask learners. OpenAI blog, 1(8). 9. [8] Brown, T., Mann, B., Ryder, N., Subbiah, M., Kaplan, J., Dhariwal, P., Neelakantan, A., Shyam, P., Sastry, G., Askell, A. \u0026 (2020). Language models are few-shot learners. Advances in neural information processing systems, 33. 1877–1901. [9] Ouyang, L., Wu, J., Jiang, X., Almeida, D., Wainwright, C., Mishkin, P., Zhang, C., Agarwal, S., Slama, K., Ray, A. \u0026 (2022). Training language models to follow instructions with human feedback. Advances in neural information processing systems, 35. 27730–27744. [10] Ba, J., Kiros, J. \u0026 Hinton, G. (2016). Layer normalization. arXiv preprint arXiv:1607.06450. [11] Zhang, B. \u0026 Sennrich, R. (2019). Root mean square layer normalization. Advances in Neural Information Processing Systems, 32. [12] Su, J., Lu, Y., Pan, S., Murtadha, A., Wen, B. \u0026 Liu, Y. (2021). Roformer: Enhanced transformer with rotary position embedding. arXiv preprint arXiv:2104.09864. [13] Shazeer, N. (2020). Glu variants improve transformer. arXiv preprint arXiv:2002.05202. [14] Ramachandran, P., Zoph, B. \u0026 Le, Q. (2017). Searching for activation functions. arXiv preprint arXiv:1710.05941. [15] Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A., Kaiser, Ł. \u0026 Polosukhin, I. (2017). Attention is all you need. Advances in neural information processing systems, 30. ","wordCount":"5583","inLanguage":"en","image":"https://0ffy.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E","datePublished":"2023-08-31T00:00:00Z","dateModified":"2023-08-31T00:00:00Z","author":{"@type":"Person","name":"0ffy"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://0ffy.github.io/posts/2023-08-31-transformers/"},"publisher":{"@type":"Organization","name":"0ffy","logo":{"@type":"ImageObject","url":"https://0ffy.github.io/favicon.ico"}}}</script></head><body id=top><header class=header><nav class=header-nav><div class=logo><a href=https://0ffy.github.io/ accesskey=h title="0ffy (Alt + H)"><img src=https://0ffy.github.io/f.png alt aria-label=logo height=40>0ffy</a><div class=logo-switches><button id=theme-toggle class=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme">
+<svg class="moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+<svg class="sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu class=menu><li><a href=https://0ffy.github.io/archives/ title=Archives><span>Archives</span></a></li><li><a href=https://0ffy.github.io/tags/ title=Tags><span>Tags</span></a></li><li><a href=https://0ffy.github.io/search/ title="Search (Alt + /)" accesskey=/><span>Search</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><nav class=breadcrumbs role=navigation aria-label=Breadcrumb><a href=/>Home</a>
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"/></svg>
+<a href=/posts/>Posts</a>
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"/></svg></nav><h1 class="post-title entry-hint-parent">GPT and Transformers</h1><div class=post-meta><span title='2023-08-31 00:00:00 +0000 UTC'>August 31, 2023</span>&nbsp;·&nbsp;<span>27 min</span>&nbsp;·&nbsp;<span>0ffy</span></div></header><details class=toc open><summary accesskey=c title="(Alt + C)"><span class=title>Table of Contents</span></summary><div class=inner><nav id=TableOfContents><ul><li><a href=#gpt-1>GPT-1</a></li><li><a href=#gpt-2>GPT-2</a></li><li><a href=#gpt-3>GPT-3</a></li><li><a href=#instructgpt>InstructGPT</a></li><li><a href=#the-attention-layer>The attention layer</a></li><li><a href=#swiglu-layer>SwiGLU layer</a></li><li><a href=#rmsnorm-layer>RMSNorm layer</a></li><li><a href=#rotary-position-embedding-rope>Rotary Position Embedding (RoPE)</a></li><li><a href=#alibi-position-embedding>ALiBi position embedding</a></li><li><a href=#flash-attention>Flash Attention</a></li><li><a href=#pytorch-code>PyTorch code</a></li><li><a href=#references>References</a></li></ul></nav></div></details><div class="post-content md-content"><p>The release of ChatGPT on November 30, 2022 was a historical moment. In this post, GPT models are documented, along with several improvements over the transformer model.</p><table><thead><tr><th>Model</th><th>Date</th><th>Size</th></tr></thead><tbody><tr><td>GPT</td><td>June 2018</td><td>117M</td></tr><tr><td>GPT-2</td><td>February 2019</td><td>1.5B</td></tr><tr><td>GPT-3</td><td>May 2020</td><td>175B</td></tr><tr><td>ChatGPT</td><td>Nov 2022</td><td>n/a</td></tr><tr><td>GPT-4</td><td>March 2023</td><td>n/a</td></tr></tbody></table><h2 id=gpt-1>GPT-1<a hidden class=anchor aria-hidden=true href=#gpt-1>#</a></h2><p>The GPT-1 model
+<span class=hugo-cite-intext itemprop=citation>(<span class=hugo-cite-group>
+<a href=#gpt1-bibref><span class=visually-hidden>Citation: </span><span itemprop=author itemscope itemtype=https://schema.org/Person><meta itemprop=givenName content="Alec"><span itemprop=familyName>Radford</span></span>, <span itemprop=author itemscope itemtype=https://schema.org/Person><meta itemprop=givenName content="Karthik"><span itemprop=familyName>Narasimhan</span></span>
+<em>& al.</em>, <span itemprop=datePublished>2018</span></a><span class=hugo-cite-citation>
+<span itemscope itemtype=https://schema.org/Article data-type=article><span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Radford</span>, 
+<meta itemprop=givenName content="Alec">A.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Narasimhan</span>, 
+<meta itemprop=givenName content="Karthik">K.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Salimans</span>, 
+<meta itemprop=givenName content="Tim">T.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Sutskever</span>, 
+<meta itemprop=givenName content="Ilya">I.</span> & <span itemprop=author itemscope itemtype=https://schema.org/Person></span>
+ 
+(<span itemprop=datePublished>2018</span>).
+ <span itemprop=name>Improving language understanding by generative pre-training</span>.</span>
+</span></span>)</span>
+was trained to output a probability distribution over the next token given the input context. The following likelihood objective is maximized on a corpus of training tokens $\{u_1,\ldots,u_n\}$ via stochastic gradient descent:
+$$
+L(\theta) = \sum_{i}\log \mathbb{P}_\theta(u_i \mid u_{i-k}\cdots u_{i-1})
+$$</p><p>The model $\mathbb{P}_\theta(\cdot\mid\hat{\bm{u}})$ is a 12-layer transformer:
+$$
+\begin{aligned}
+h_0&=\hat{\bm{u}}W_e + W_p\,\Rightarrow\, h_l=\mathrm{tr}(h_{l-1})\quad\text{for }l=1\ldots12\\
+\mathbb{P}(u)&=\mathrm{softmax}(h_{12}W_e^T)
+\end{aligned}
+$$</p><p>where $\hat{\bm{u}}=(u_{-k},\ldots,u_{-1})$ is the context vector of tokens.</p><p>Given previous context, the simplest way to generate the next word $u_i$ is to assume that it only depends on its left neighbor $u_{i-1}$, count the occurrence of all words that come after $u_{i-1}$ in the training corpus, and then select the word with the highest frequency. This is the 2-gram model. To model context dependence, something more sophisticated is needed. The Attention model
+<span class=hugo-cite-intext itemprop=citation>(<span class=hugo-cite-group>
+<a href=#attention-bibref><span class=visually-hidden>Citation: </span><span itemprop=author itemscope itemtype=https://schema.org/Person><meta itemprop=givenName content="Dzmitry"><span itemprop=familyName>Bahdanau</span></span>, <span itemprop=author itemscope itemtype=https://schema.org/Person><meta itemprop=givenName content="Kyunghyun"><span itemprop=familyName>Cho</span></span>
+<em>& al.</em>, <span itemprop=datePublished>2014</span></a><span class=hugo-cite-citation>
+<span itemscope itemtype=https://schema.org/Article data-type=article><span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Bahdanau</span>, 
+<meta itemprop=givenName content="Dzmitry">D.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Cho</span>, 
+<meta itemprop=givenName content="Kyunghyun">K.</span> & <span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Bengio</span>, 
+<meta itemprop=givenName content="Yoshua">Y.</span>
+ 
+(<span itemprop=datePublished>2014</span>).
+ <span itemprop=name>Neural machine translation by jointly learning to align and translate</span>.<i>
+<span itemprop=about>arXiv preprint arXiv:1409.0473</span></i>.</span>
+</span></span>)</span>
+is the exact opposite of the Markov assumption of context independence. It is a simple and efficient way to pay attention to previous context when generating the next word. In attention model, $u_i$ is a weighted sum of all the words in its context:</p><p>$$
+u_i = \hat{\bm{\alpha}}\cdot\hat{\bm{v}} = \alpha_1 v_{i-1} + \alpha_2 v_{i-2} + \cdots + \alpha_k v_{i-k},
+$$</p><p>where the weight $\alpha_i$ represents how much the output should pay attention to $u_i$, and $v_k=Vu_{i-k}$ with learnable parameter matrix $V$. The Transformer model
+<span class=hugo-cite-intext itemprop=citation>(<span class=hugo-cite-group>
+<a href=#transformer-bibref><span class=visually-hidden>Citation: </span><span itemprop=author itemscope itemtype=https://schema.org/Person><meta itemprop=givenName content="Ashish"><span itemprop=familyName>Vaswani</span></span>, <span itemprop=author itemscope itemtype=https://schema.org/Person><meta itemprop=givenName content="Noam"><span itemprop=familyName>Shazeer</span></span>
+<em>& al.</em>, <span itemprop=datePublished>2017</span></a><span class=hugo-cite-citation>
+<span itemscope itemtype=https://schema.org/Article data-type=article><span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Vaswani</span>, 
+<meta itemprop=givenName content="Ashish">A.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Shazeer</span>, 
+<meta itemprop=givenName content="Noam">N.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Parmar</span>, 
+<meta itemprop=givenName content="Niki">N.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Uszkoreit</span>, 
+<meta itemprop=givenName content="Jakob">J.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Jones</span>, 
+<meta itemprop=givenName content="Llion">L.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Gomez</span>, 
+<meta itemprop=givenName content="Aidan N">A.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Kaiser</span>, 
+<meta itemprop=givenName content="Łukasz">Ł.</span> & <span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Polosukhin</span>, 
+<meta itemprop=givenName content="Illia">I.</span>
+ 
+(<span itemprop=datePublished>2017</span>).
+ <span itemprop=name>Attention is all you need</span>.<i>
+<span itemprop=about>Advances in neural information processing systems</span>, 30</i>.</span>
+</span></span>)</span>
+is attention layer plus residual layer, linear layer and normalization. These extra components are indispensable:</p><ul><li>Residual connections ensure that gradients can directly flow backward from output to input. Without it convergence can be difficult.</li><li>Normalization addresses over-fitting and ensures robust learning. Without it training loss can explode.</li><li>Linear layers add more parameters, increasing model capacities. Without it the loss will be higher, performance will be much worse.</li></ul><p>GPT-1 was applied to downstream classification tasks by mapping the final vector of the final hidden layer via learnable weights to distributions over class labels, and log-likelihood is maximized over labeled data.</p><h2 id=gpt-2>GPT-2<a hidden class=anchor aria-hidden=true href=#gpt-2>#</a></h2><p>The GPT-2
+<span class=hugo-cite-intext itemprop=citation>(<span class=hugo-cite-group>
+<a href=#gpt2-bibref><span class=visually-hidden>Citation: </span><span itemprop=author itemscope itemtype=https://schema.org/Person><meta itemprop=givenName content="Alec"><span itemprop=familyName>Radford</span></span>, <span itemprop=author itemscope itemtype=https://schema.org/Person><meta itemprop=givenName content="Jeffrey"><span itemprop=familyName>Wu</span></span>
+<em>& al.</em>, <span itemprop=datePublished>2019</span></a><span class=hugo-cite-citation>
+<span itemscope itemtype=https://schema.org/Article data-type=article><span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Radford</span>, 
+<meta itemprop=givenName content="Alec">A.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Wu</span>, 
+<meta itemprop=givenName content="Jeffrey">J.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Child</span>, 
+<meta itemprop=givenName content="Rewon">R.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Luan</span>, 
+<meta itemprop=givenName content="David">D.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Amodei</span>, 
+<meta itemprop=givenName content="Dario">D.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Sutskever</span>, 
+<meta itemprop=givenName content="Ilya">I.</span> & <span itemprop=author itemscope itemtype=https://schema.org/Person></span>
+ 
+(<span itemprop=datePublished>2019</span>).
+ <span itemprop=name>Language models are unsupervised multitask learners</span>.<i>
+<span itemprop=about>OpenAI blog</span>, 1(8)</i>. <span itemprop=pagination>9</span>.</span>
+</span></span>)</span>
+model architecture follows GPT-1, with the following differences:</p><ol><li>GPT-2 was trained on a much larger dataset. GPT model was trained on the BooksCorpus dataset
+<span class=hugo-cite-intext itemprop=citation>(<span class=hugo-cite-group>
+<a href=#bookcorpus-bibref><span class=visually-hidden>Citation: </span><span itemprop=author itemscope itemtype=https://schema.org/Person><meta itemprop=givenName content="Yukun"><span itemprop=familyName>Zhu</span></span>, <span itemprop=author itemscope itemtype=https://schema.org/Person><meta itemprop=givenName content="Ryan"><span itemprop=familyName>Kiros</span></span>
+<em>& al.</em>, <span itemprop=datePublished>2015</span></a><span class=hugo-cite-citation>
+<span itemscope itemtype=https://schema.org/CreativeWork data-type=paper-conference><span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Zhu</span>, 
+<meta itemprop=givenName content="Yukun">Y.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Kiros</span>, 
+<meta itemprop=givenName content="Ryan">R.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Zemel</span>, 
+<meta itemprop=givenName content="Rich">R.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Salakhutdinov</span>, 
+<meta itemprop=givenName content="Ruslan">R.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Urtasun</span>, 
+<meta itemprop=givenName content="Raquel">R.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Torralba</span>, 
+<meta itemprop=givenName content="Antonio">A.</span> & <span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Fidler</span>, 
+<meta itemprop=givenName content="Sanja">S.</span>
+ 
+(<span itemprop=datePublished>2015</span>).
+ <span itemprop=name><i>Aligning books and movies: Towards story-like visual explanations by watching movies and reading books</i></span>.
+</span></span></span>)</span>
+. GPT-2 was trained on WebText, which contains 8 million documents with a size of 40 GB.</li><li>In GPT-2, layer normalization was moved to the beginning, rather than the end of each sub-block.</li><li>An additional layer normalization was added after the final self-attention block.</li><li>Context size was increased from 512 to 1024 tokens.</li></ol><p>These changes played very important roles in improving model performance. Significance of GPT-2 lies in its <strong>zero-shot</strong> abilities.</p><h2 id=gpt-3>GPT-3<a hidden class=anchor aria-hidden=true href=#gpt-3>#</a></h2><p>GPT-3
+<span class=hugo-cite-intext itemprop=citation>(<span class=hugo-cite-group>
+<a href=#gpt3-bibref><span class=visually-hidden>Citation: </span><span itemprop=author itemscope itemtype=https://schema.org/Person><meta itemprop=givenName content="Tom"><span itemprop=familyName>Brown</span></span>, <span itemprop=author itemscope itemtype=https://schema.org/Person><meta itemprop=givenName content="Benjamin"><span itemprop=familyName>Mann</span></span>
+<em>& al.</em>, <span itemprop=datePublished>2020</span></a><span class=hugo-cite-citation>
+<span itemscope itemtype=https://schema.org/Article data-type=article><span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Brown</span>, 
+<meta itemprop=givenName content="Tom">T.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Mann</span>, 
+<meta itemprop=givenName content="Benjamin">B.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Ryder</span>, 
+<meta itemprop=givenName content="Nick">N.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Subbiah</span>, 
+<meta itemprop=givenName content="Melanie">M.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Kaplan</span>, 
+<meta itemprop=givenName content="Jared D">J.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Dhariwal</span>, 
+<meta itemprop=givenName content="Prafulla">P.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Neelakantan</span>, 
+<meta itemprop=givenName content="Arvind">A.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Shyam</span>, 
+<meta itemprop=givenName content="Pranav">P.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Sastry</span>, 
+<meta itemprop=givenName content="Girish">G.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Askell</span>, 
+<meta itemprop=givenName content="Amanda">A.</span> & <span itemprop=author itemscope itemtype=https://schema.org/Person></span>
+ 
+(<span itemprop=datePublished>2020</span>).
+ <span itemprop=name>Language models are few-shot learners</span>.<i>
+<span itemprop=about>Advances in neural information processing systems</span>, 33</i>. <span itemprop=pagination>1877–1901</span>.</span>
+</span></span>)</span>
+largely shares the same architecture as GPT-2, but is significantly larger, with 175B parameters. Alternating dense and sparse attention patterns were used in transformer layers, similar to the Sparse Transformer. An extensive series of experiments were conducted, and the GPT-3 model achieved strong performances across multiple tasks. The experiments strongly supported scaling as a crucial way to obtain better performance.</p><h2 id=instructgpt>InstructGPT<a hidden class=anchor aria-hidden=true href=#instructgpt>#</a></h2><p>GPT-3 is optimized to produce web-like documents. If you give the model an instruction, like &ldquo;explain &mldr;. to me&rdquo;, it will not know how to respond to this particular instruction, but instead it is likely to produce something that looks like articles that contain similar sentences in the training data. In OpenAI&rsquo;s term, the model is <em>misaligned</em>.</p><p>InstructGPT
+<span class=hugo-cite-intext itemprop=citation>(<span class=hugo-cite-group>
+<a href=#instructgpt-bibref><span class=visually-hidden>Citation: </span><span itemprop=author itemscope itemtype=https://schema.org/Person><meta itemprop=givenName content="Long"><span itemprop=familyName>Ouyang</span></span>, <span itemprop=author itemscope itemtype=https://schema.org/Person><meta itemprop=givenName content="Jeffrey"><span itemprop=familyName>Wu</span></span>
+<em>& al.</em>, <span itemprop=datePublished>2022</span></a><span class=hugo-cite-citation>
+<span itemscope itemtype=https://schema.org/Article data-type=article><span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Ouyang</span>, 
+<meta itemprop=givenName content="Long">L.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Wu</span>, 
+<meta itemprop=givenName content="Jeffrey">J.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Jiang</span>, 
+<meta itemprop=givenName content="Xu">X.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Almeida</span>, 
+<meta itemprop=givenName content="Diogo">D.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Wainwright</span>, 
+<meta itemprop=givenName content="Carroll">C.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Mishkin</span>, 
+<meta itemprop=givenName content="Pamela">P.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Zhang</span>, 
+<meta itemprop=givenName content="Chong">C.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Agarwal</span>, 
+<meta itemprop=givenName content="Sandhini">S.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Slama</span>, 
+<meta itemprop=givenName content="Katarina">K.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Ray</span>, 
+<meta itemprop=givenName content="Alex">A.</span> & <span itemprop=author itemscope itemtype=https://schema.org/Person></span>
+ 
+(<span itemprop=datePublished>2022</span>).
+ <span itemprop=name>Training language models to follow instructions with human feedback</span>.<i>
+<span itemprop=about>Advances in neural information processing systems</span>, 35</i>. <span itemprop=pagination>27730–27744</span>.</span>
+</span></span>)</span>
+addresses this problem by resorting to supervised fine-tuning. Step 1 is to fine-tune on high quality human-crafted instruction-response dataset. Step 2 is to train a reward model, and step 3 is to train the model to maximize reward model output. The last two steps are called Reinforcement Learning with Human Feedback (RLHF), which proves to be an effective way of aligning model to human instructions. It shares similarity with <strong>GAN</strong>, in which a generative model is trained to optimize output score from a discriminative model. In GAN the two models are trained concurrently. Here in InstructGPT the two models are trained separately.</p><p>Here are the methods in detail:</p><ol><li><p>First, a pre-trained GPT-3 model is fine-tuned on prompt-response dataset created by 40 labelers. The dataset contains about 13k training prompts. The fine-tuned model is called SFT (which stands for &ldquo;Supervised Fine-Tuning&rdquo;).</p></li><li><p>Second, given a prompt, sample several outputs (from $K=4$ to $K=9$) from the model. A human labeler then ranks the outputs. Collect such human ranking dataset, and train a reward model (RM) on the dataset. In the paper, the RM model is a GPT-3 model with 6B parameters. The training objective is the pairwise ranking loss</p></li></ol><p>$$
+\text{loss}(\theta) = -\frac{1}{K \choose 2} E_{(x, y_w, y_l)\sim D}[\log(\sigma(r_\theta(x,y_w) - r_\theta(x, y_l)))]
+$$</p><p>where $r_\theta(x, y)$ is the scalar output of the reward model for prompt $x$ and completion $y$ with parameters $\theta$, $y_w$ is the preferred completion out of the pair of $y_w$ and $y_l$, and $D$ is the dataset of human comparisons. The RM dataset has 33k training prompts.</p><ol start=3><li>Finally, fine-tune the SFT model again, such that its output will have a high reward score from the RM model. This is called Proxy Policy Optimization (PPO) in the paper, which is about optimizing (maximizing) the following objective:</li></ol><p>$$
+\text{objective}(\phi) = E_{(x,y)\sim D_{\pi_\phi^{RL}}}[r_\theta(x,y) - \beta\log\left(\pi_\phi^{RL}(y\mid x) / \pi^{SFT}(y\mid x)\right)] + \gamma E_{x\sim D_{\text{pretrain}}}[\log(\pi_\phi^{RL}(x))].
+$$</p><p>Here, $\pi^{SFT}$ is the fine-tuned model from step 1, which is kept fixed, and $\pi_{\phi}^{RL}$ (called &ldquo;RL policy&rdquo;) is a copy of $\pi^{SFT}$ whose parameters are going to be updated by training. $x$ is prompt, and $y$ is the response output from the model.</p><p>The first term is the main objective we want to maximize. Note that, sampling comes from the model we are training, rather than a fixed dataset. After gradient updates, the sample distribution will be different.</p><p>The second term (negative KL divergence between distribution $\pi_\phi^{RL}(y\mid x)$ and $\pi^{SFT}(y\mid x)$) is a regularization term that penalizes deviation from the fine-tuned model from step 1. This is added to avoid losing all the information stored in the weights of the fine-tuned model.</p><p>The third term is also a regularization term. It is the objective of language modeling (maximizing log likelihood on next word). This is to prevent the model from focusing too much on increasing $r_\theta(x,y)$ and forgetting about next-word generation.</p><hr><p>A Transformer block consists of an attention layer, two normalization layers, residual connections and a feedforward layer. Many models like Llama are usually made of 32 transformer blocks stacked together, plus normalization and linear projection at the end. A transformer layer is a &ldquo;cube&rdquo;, meaning that the input and the output have the same shape: N vectors in, N vectors out.</p><p>For language modeling (next-token prediction), each output vector $i=1,\ldots,N$ will be mapped to an unnormalized logit vector with length <code>vocab_size</code> that represents the predicted distribution over the next token, given the attention with previous tokens. During training, the logit for ground truth will be maximized for each token in the sentence. For example, with &ldquo;I eat apple with happiness&rdquo;, we will maximize &ldquo;eat&rdquo; given &ldquo;I&rdquo;, maximize &ldquo;apple&rdquo; given &ldquo;I eat&rdquo;, etc. In inference though, only the final vector ("<code>out[-1]</code>") in the output tensor is needed, and we map the final output vector to logits to predict the next token.</p><p>Among transformer&rsquo;s components, the attention layer is the most important one.</p><h2 id=the-attention-layer>The attention layer<a hidden class=anchor aria-hidden=true href=#the-attention-layer>#</a></h2><p>As with a transformer layer, we can also think of an attention layer as a cube, because the output of an attention layer has the same shape as its input: it takes a sequence of embedding vectors as input, and output an updated version of those input embeddings, where each updated vector now attends to all other vectors in the sequence (including itself), or in the case of autoregressive modeling, attends to all previous vectors in the sequence (including itself).</p><p>An attention layer has three matrices as parameters: query matrix, key matrix, and value matrix, each has shape $d\times d$, where $d$ is the token embedding dimension. Let&rsquo;s take $d=2$, so that we can see the essence more clearly. In this case, we have three $2\times2$ matrices, for a total of 12 parameters. We have:</p><ul><li>the 2x2 query matrix $Q$ transforms <em>any</em> input vector $v\in\mathbb{R}^2$ to a query vector $q_v\in \mathbb{R}^2$.</li><li>the 2x2 key matrix $K$ transforms <em>any</em> input vector to a key vector in $\mathbb{R}^2$.</li><li>the 2x2 query matrix $V$ transforms <em>any</em> input vector to a value vector in $\mathbb{R}^2$.</li></ul><p>Let&rsquo;s walk through the attention calculation. The input is a sequence of $N$ tokens, each embedded as a 2d vector. The input tensor is then an $N\times2$ matrix. Apply the three matrix multiplications, we get</p><ul><li>Nx2 query tensor,</li><li>Nx2 key tensor,</li><li>Nx2 value tensor,</li></ul><p>where each row is a 2d embedding vector.</p><p>For each vector, we want to update itself as a weighted sum of all the vectors in the sequence (including itself), weighted by cosine similarity (dot product).</p><p>$$v = \sum\alpha_jv_j$$
+$$\alpha_j =v_i \cdot v_j \quad\Rightarrow\quad \alpha_j=e^{v_i \cdot v_j}/\sum e^{v_i \cdot v_j}\,\text{(normalize)}$$</p><p>The query tensor (Nx2) times the transpose of the key tensor (2xN) is an NxN matrix of dot products between each pair of vector in the sequence of length N.</p><figure class=align-center><img loading=lazy src=/imgs/transformers/attention.png#center alt="Attention calculation - query and key tensor product to score matrix. Image source: author"><figcaption><p>Attention calculation - query and key tensor product to score matrix. Image source: author</p></figcaption></figure><p>Each row is a list of similarity measures between the token $i$ with all other tokens in the sequence. If we don&rsquo;t want token $i$ to attend to subsequent tokens, then we change those similarity scores to $-\infty$, since $e^{-\infty} = 0$. Otherwise, as in BERT, we leave them unchanged. Applying softmax row-wise, we get normalized weights for each token $i$.</p><blockquote><p>Note that it is in this sense that the attention layer can handle sequences of arbitrary length: the N just gets larger, the score matrix gets larger (grow O(N^2)), though there are only three 2x2 parameter matrices Q, K and V for a total of 12 parameters.</p></blockquote><blockquote><p>Note that softmax per se is not a linear operation. For an input vector $v$, $\mathrm{sm}(v)$ apply $e^{(\cdot)}$ to each element in $v$ and then normalize them by the sum of the exponentials. It is not true that $\mathrm{sm}(v + w) = \mathrm{sm}(v) + \mathrm{sm}(w)$.</p></blockquote><p>After that, we just multiply the score matrix with the value tensor. Each row $i$ in the output is then an updated version of token $i$&rsquo;s&rsquo; embedding.</p><figure class=align-center><img loading=lazy src=/imgs/transformers/attention2.png#center alt="Attention calculation - multiply score matrix with value tensor to get updated embeddings. Image source: author"><figcaption><p>Attention calculation - multiply score matrix with value tensor to get updated embeddings. Image source: author</p></figcaption></figure><p>So this is the vanilla attention. In practice there are several additional variants:</p><ol><li>Since we multiply an $N\times N$ square matrix with the $N\times d_v$ value tensor, the dimension of the value vectors $d_v$ can be different, i.e. they don&rsquo;t have to be 2, but can be 3, 4, or whatever. This means the value matrix $V$ can have shape $2\times d_v$, that maps each 2d token embedding to a $d_v$-dimensional vector. The queriy and key vectors though, should have the same dimension for dot product.</li><li>The attention layer we just illustrated is called single head attention, with one 2x2 key matrix, one 2x2 query matrix and one 2x2 value matrix as parameters. Similar to mapping an image with 3 channels to multiple channels with multiple kernels in convolutional layer in CNN, one may want to use multiple Q, K and V matrices to perform the attention calculation multiple times and concatenate the output from multiple calculations, in order to capture different aspects of an input sequence. This is called &ldquo;<strong>multi-head attention</strong>&rdquo;.</li><li>It is also called self-attention because each token attends to other tokens within the same sequence. If, for example, the key vectors come from outside sources, for example image embeddings obtained from an image encoder, then it is called <strong>cross attention</strong>.</li></ol><h2 id=swiglu-layer>SwiGLU layer<a hidden class=anchor aria-hidden=true href=#swiglu-layer>#</a></h2><p>SwiGLU
+<span class=hugo-cite-intext itemprop=citation>(<span class=hugo-cite-group>
+<a href=#swiglu-bibref><span class=visually-hidden>Citation: </span><span itemprop=author itemscope itemtype=https://schema.org/Person><meta itemprop=givenName content="Noam"><span itemprop=familyName>Shazeer</span></span>, <span itemprop=datePublished>2020</span></a><span class=hugo-cite-citation>
+<span itemscope itemtype=https://schema.org/Article data-type=article><span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Shazeer</span>, 
+<meta itemprop=givenName content="Noam">N.</span>
+ 
+(<span itemprop=datePublished>2020</span>).
+ <span itemprop=name>Glu variants improve transformer</span>.<i>
+<span itemprop=about>arXiv preprint arXiv:2002.05202</span></i>.</span>
+</span></span>)</span>
+is an improvement over the feed forward layer in transformers. A feed forward layer, also called a fully connected (FC) layer or multi-layer perceptron (MLP), is defined as
+$$
+\mathrm{FFN}(x, W_1, W_2, b_1, b_2) = W_2f(W_1x + b_1) + b_2,
+$$</p><p>where $f$ is the nonlinear activation function applied element-wise to its input vector. The most commonly used one is the ReLU activation function $f(x) = \max(0, x)$.</p><p>The Swish function
+<span class=hugo-cite-intext itemprop=citation>(<span class=hugo-cite-group>
+<a href=#swish-bibref><span class=visually-hidden>Citation: </span><span itemprop=author itemscope itemtype=https://schema.org/Person><meta itemprop=givenName content="Prajit"><span itemprop=familyName>Ramachandran</span></span>, <span itemprop=author itemscope itemtype=https://schema.org/Person><meta itemprop=givenName content="Barret"><span itemprop=familyName>Zoph</span></span>
+<em>& al.</em>, <span itemprop=datePublished>2017</span></a><span class=hugo-cite-citation>
+<span itemscope itemtype=https://schema.org/Article data-type=article><span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Ramachandran</span>, 
+<meta itemprop=givenName content="Prajit">P.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Zoph</span>, 
+<meta itemprop=givenName content="Barret">B.</span> & <span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Le</span>, 
+<meta itemprop=givenName content="Quoc V">Q.</span>
+ 
+(<span itemprop=datePublished>2017</span>).
+ <span itemprop=name>Searching for activation functions</span>.<i>
+<span itemprop=about>arXiv preprint arXiv:1710.05941</span></i>.</span>
+</span></span>)</span>
+, also called Sigmoid Linear Unit (SiLU), is defined as $f_\beta(x) = x\cdot\sigma(\beta x)$, where $\sigma(x)$ is the sigmoid function</p><p>$$
+\sigma(x) = \frac{1}{1 + e^{-x}}.
+$$</p><p>As $\beta\to0$, the function approaches the linear function $\frac{1}{2}x$. As $\beta\to\infty$, $\sigma(x)$ approaches either $0$ or $1$, so the Swish function approaches the ReLU function. It is common to set $\beta=1$. The most unique aspect of the Swish function is the non-monotonic “bump” at $x&lt;0$.</p><figure class=align-center><img loading=lazy src=/imgs/transformers/swish.png#center alt="Swish functions and their derivatives. Image source: author"><figcaption><p>Swish functions and their derivatives. Image source: author</p></figcaption></figure><p>Gated Linear Units (GLU) refers to multiplying the vector coming out of the nonlinear activation function $f(W_1x)$ by a linear transformation of the input vector $x$, in element-wise fashion. This is denoted as</p><p>$$
+f(W_1x) \otimes W_3x.
+$$</p><p>Now, the SwiGLU layer is</p><p>(1) feed forward layer without bias, plus</p><p>(2) GLU, plus</p><p>(3) the Swish function $f(x)=x\cdot\sigma(x)$ as activation function:</p><p>$$
+\mathrm{SwiGLU}(x,W_1, W_2, W_3) = W_2(\mathrm{Swish}_1(W_1x) \otimes W_3x)
+$$</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=k>class</span> <span class=nc>FeedForward</span><span class=p>(</span><span class=n>nn</span><span class=o>.</span><span class=n>Module</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>dim</span><span class=p>:</span> <span class=nb>int</span><span class=p>,</span> <span class=n>hidden_dim</span><span class=p>:</span> <span class=nb>int</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=nb>super</span><span class=p>()</span><span class=o>.</span><span class=fm>__init__</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>w1</span> <span class=o>=</span> <span class=n>Linear</span><span class=p>(</span><span class=n>dim</span><span class=p>,</span> <span class=n>hidden_dim</span><span class=p>,</span> <span class=n>bias</span><span class=o>=</span><span class=kc>False</span><span class=p>,</span> <span class=o>...</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>w2</span> <span class=o>=</span> <span class=n>Linear</span><span class=p>(</span><span class=n>hidden_dim</span><span class=p>,</span> <span class=n>dim</span><span class=p>,</span> <span class=n>bias</span><span class=o>=</span><span class=kc>False</span><span class=p>,</span> <span class=o>...</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>w3</span> <span class=o>=</span> <span class=n>Linear</span><span class=p>(</span><span class=n>dim</span><span class=p>,</span> <span class=n>hidden_dim</span><span class=p>,</span> <span class=n>bias</span><span class=o>=</span><span class=kc>False</span><span class=p>,</span> <span class=o>...</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>forward</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>x</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>w2</span><span class=p>(</span><span class=n>F</span><span class=o>.</span><span class=n>silu</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>w1</span><span class=p>(</span><span class=n>x</span><span class=p>))</span> <span class=o>*</span> <span class=bp>self</span><span class=o>.</span><span class=n>w3</span><span class=p>(</span><span class=n>x</span><span class=p>))</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=rmsnorm-layer>RMSNorm layer<a hidden class=anchor aria-hidden=true href=#rmsnorm-layer>#</a></h2><p>Neural network training is sensitive to parameter initialization and hyperparameter tuning. Batch normalization
+<span class=hugo-cite-intext itemprop=citation>(<span class=hugo-cite-group>
+<a href=#batchnorm-bibref><span class=visually-hidden>Citation: </span><span itemprop=author itemscope itemtype=https://schema.org/Person><meta itemprop=givenName content="Sergey"><span itemprop=familyName>Ioffe</span></span> & <span itemprop=author itemscope itemtype=https://schema.org/Person><meta itemprop=givenName content="Christian"><span itemprop=familyName>Szegedy</span></span>, <span itemprop=datePublished>2015</span></a><span class=hugo-cite-citation>
+<span itemscope itemtype=https://schema.org/CreativeWork data-type=paper-conference><span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Ioffe</span>, 
+<meta itemprop=givenName content="Sergey">S.</span> & <span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Szegedy</span>, 
+<meta itemprop=givenName content="Christian">C.</span>
+ 
+(<span itemprop=datePublished>2015</span>).
+ <span itemprop=name><i>Batch normalization: Accelerating deep network training by reducing internal covariate shift</i></span>.
+ 
+<span itemprop=publisher itemtype=http://schema.org/Organization itemscope><span itemprop=name>pmlr</span></span>.</span>
+</span></span>)</span>
+was proposed to make the training process more robust and less dependent on such hyperparameter tuning. The method can make training converge faster, thus reducing training time. When it was first proposed it achieved the best accuracy on ImageNet classification task. For each mini-batch, batch normalization first calculates mean and variance statistics over the mini-batch, then subtracts the mean and scales by the variance for each data point in the mini-batch. We can represent the batch normalization layer as</p><p>$$
+\mathrm{BN}(x) = \frac{x - \mathbb{E}_{x\sim\mathcal{B}}x}{\sqrt{\mathrm{var}(x) + \epsilon}},
+$$</p><p>where the mean and variance statistics are calculated over a batch $\mathcal{B}$.</p><p>Layer normalization
+<span class=hugo-cite-intext itemprop=citation>(<span class=hugo-cite-group>
+<a href=#layernorm-bibref><span class=visually-hidden>Citation: </span><span itemprop=author itemscope itemtype=https://schema.org/Person><meta itemprop=givenName content="Jimmy Lei"><span itemprop=familyName>Ba</span></span>, <span itemprop=author itemscope itemtype=https://schema.org/Person><meta itemprop=givenName content="Jamie Ryan"><span itemprop=familyName>Kiros</span></span>
+<em>& al.</em>, <span itemprop=datePublished>2016</span></a><span class=hugo-cite-citation>
+<span itemscope itemtype=https://schema.org/Article data-type=article><span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Ba</span>, 
+<meta itemprop=givenName content="Jimmy Lei">J.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Kiros</span>, 
+<meta itemprop=givenName content="Jamie Ryan">J.</span> & <span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Hinton</span>, 
+<meta itemprop=givenName content="Geoffrey E">G.</span>
+ 
+(<span itemprop=datePublished>2016</span>).
+ <span itemprop=name>Layer normalization</span>.<i>
+<span itemprop=about>arXiv preprint arXiv:1607.06450</span></i>.</span>
+</span></span>)</span>
+was first proposed to apply the same idea to recurrent neural networks (RNN), where an layer may take only one input vector at a time. Layer normalization is &ldquo;orthogonal&rdquo; to batch normalization. Instead of looking at the data distribution across a batch, it calculates mean and variance statistics across all <em>dimensions</em> of an input vector, and normalize each dimension with the calculated mean and variance. Layer normalization can be represented as</p><p>$$
+\mathrm{LN}(x) = \frac{x - \mathbb{E}x_j}{\sqrt{\mathrm{var}(x_j) + \epsilon}}g,
+$$</p><p>where the mean and variance statistics are calculated over $x=(x_1,\ldots, x_j, \ldots, x_n)\in\R^n$. $g\in\R^n$ is a trainable parameter used for scaling that is set to $(1,\ldots,1)$ at the beginning.</p><p>Rooted Mean Square Normalization (RMSNorm)
+<span class=hugo-cite-intext itemprop=citation>(<span class=hugo-cite-group>
+<a href=#rmsnorm-bibref><span class=visually-hidden>Citation: </span><span itemprop=author itemscope itemtype=https://schema.org/Person><meta itemprop=givenName content="Biao"><span itemprop=familyName>Zhang</span></span> & <span itemprop=author itemscope itemtype=https://schema.org/Person><meta itemprop=givenName content="Rico"><span itemprop=familyName>Sennrich</span></span>, <span itemprop=datePublished>2019</span></a><span class=hugo-cite-citation>
+<span itemscope itemtype=https://schema.org/Article data-type=article><span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Zhang</span>, 
+<meta itemprop=givenName content="Biao">B.</span> & <span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Sennrich</span>, 
+<meta itemprop=givenName content="Rico">R.</span>
+ 
+(<span itemprop=datePublished>2019</span>).
+ <span itemprop=name>Root mean square layer normalization</span>.<i>
+<span itemprop=about>Advances in Neural Information Processing Systems</span>, 32</i>.</span>
+</span></span>)</span>
+focuses only on scaling invariance:</p><p>$$
+\mathrm{RMSNorm}(x) = \frac{x}{\|x\|/\sqrt{n}}g,
+$$</p><p>where $\|x\| = \sqrt{x_1^2 + \cdots + x_n^2}$. The output is thus confined to a sphere with radius $\sqrt{n}$.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=k>class</span> <span class=nc>RMSNorm</span><span class=p>(</span><span class=n>nn</span><span class=o>.</span><span class=n>Module</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>dim</span><span class=p>:</span> <span class=nb>int</span><span class=p>,</span> <span class=n>eps</span><span class=p>:</span> <span class=nb>float</span> <span class=o>=</span> <span class=mf>1e-6</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=nb>super</span><span class=p>()</span><span class=o>.</span><span class=fm>__init__</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>eps</span> <span class=o>=</span> <span class=n>eps</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>weight</span> <span class=o>=</span> <span class=n>nn</span><span class=o>.</span><span class=n>Parameter</span><span class=p>(</span><span class=n>torch</span><span class=o>.</span><span class=n>ones</span><span class=p>(</span><span class=n>dim</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>_norm</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>x</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>x</span> <span class=o>*</span> <span class=n>torch</span><span class=o>.</span><span class=n>rsqrt</span><span class=p>(</span><span class=n>x</span><span class=o>.</span><span class=n>pow</span><span class=p>(</span><span class=mi>2</span><span class=p>)</span><span class=o>.</span><span class=n>mean</span><span class=p>(</span><span class=o>-</span><span class=mi>1</span><span class=p>,</span> <span class=n>keepdim</span><span class=o>=</span><span class=kc>True</span><span class=p>)</span> <span class=o>+</span> <span class=bp>self</span><span class=o>.</span><span class=n>eps</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>forward</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>x</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=n>output</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>_norm</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>output</span> <span class=o>*</span> <span class=bp>self</span><span class=o>.</span><span class=n>weight</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=rotary-position-embedding-rope>Rotary Position Embedding (RoPE)<a hidden class=anchor aria-hidden=true href=#rotary-position-embedding-rope>#</a></h2><p>Without position encoding and casual mask, self-attention is <em>permutation equivariant</em>, but not strictly invariant. If input token sequence $X=(x_1,\ldots,x_n)$ is permuted as $P(X)$, the output will be permuted in the same way:
+$$
+\mathrm{Attn}(P(X)) = P(\mathrm{Attn}(X))
+$$
+This is because queries, keys, values are shuffled the same way, and attention scores permute consistently.</p><p>It is desirable to add position information to tokens so that the model can distinguish token order. In the original Transformer paper
+<span class=hugo-cite-intext itemprop=citation>(<span class=hugo-cite-group>
+<a href=#transformer-bibref><span class=visually-hidden>Citation: </span><span itemprop=author itemscope itemtype=https://schema.org/Person><meta itemprop=givenName content="Ashish"><span itemprop=familyName>Vaswani</span></span>, <span itemprop=author itemscope itemtype=https://schema.org/Person><meta itemprop=givenName content="Noam"><span itemprop=familyName>Shazeer</span></span>
+<em>& al.</em>, <span itemprop=datePublished>2017</span></a><span class=hugo-cite-citation>
+<span itemscope itemtype=https://schema.org/Article data-type=article><span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Vaswani</span>, 
+<meta itemprop=givenName content="Ashish">A.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Shazeer</span>, 
+<meta itemprop=givenName content="Noam">N.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Parmar</span>, 
+<meta itemprop=givenName content="Niki">N.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Uszkoreit</span>, 
+<meta itemprop=givenName content="Jakob">J.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Jones</span>, 
+<meta itemprop=givenName content="Llion">L.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Gomez</span>, 
+<meta itemprop=givenName content="Aidan N">A.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Kaiser</span>, 
+<meta itemprop=givenName content="Łukasz">Ł.</span> & <span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Polosukhin</span>, 
+<meta itemprop=givenName content="Illia">I.</span>
+ 
+(<span itemprop=datePublished>2017</span>).
+ <span itemprop=name>Attention is all you need</span>.<i>
+<span itemprop=about>Advances in neural information processing systems</span>, 30</i>.</span>
+</span></span>)</span>
+, the authors proposed adding absolute position encoding to each input vector:
+$$
+x_i = x_i + p_i
+$$
+where
+$$
+\begin{cases}
+p_{i, 2t}&= \sin(i/10000^{2t/d}),\newline
+p_{i, 2t+1}&= \cos(i/10000^{2t/d}).
+\end{cases}
+$$
+Note $p_{pos, j}\in[-1, 1]$ since sine and cosine have range $[-1, 1]$. See below for an example of encoding vector at position $m=10$ with dimension $d=512$.</p><figure class=align-center><img loading=lazy src=/imgs/transformers/pe.png#center alt="Example of position encoding in the original transformer paper"><figcaption><p>Example of position encoding in the original transformer paper</p></figcaption></figure><figure class=align-center><img loading=lazy src=/imgs/transformers/RoPE.jpeg#center alt="Rotary Position Embedding" height=300><figcaption><p>Rotary Position Embedding</p></figcaption></figure><p>Rotary position embedding
+<span class=hugo-cite-intext itemprop=citation>(<span class=hugo-cite-group>
+<a href=#rope-bibref><span class=visually-hidden>Citation: </span><span itemprop=author itemscope itemtype=https://schema.org/Person><meta itemprop=givenName content="Jianlin"><span itemprop=familyName>Su</span></span>, <span itemprop=author itemscope itemtype=https://schema.org/Person><meta itemprop=givenName content="Yu"><span itemprop=familyName>Lu</span></span>
+<em>& al.</em>, <span itemprop=datePublished>2021</span></a><span class=hugo-cite-citation>
+<span itemscope itemtype=https://schema.org/Article data-type=article><span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Su</span>, 
+<meta itemprop=givenName content="Jianlin">J.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Lu</span>, 
+<meta itemprop=givenName content="Yu">Y.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Pan</span>, 
+<meta itemprop=givenName content="Shengfeng">S.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Murtadha</span>, 
+<meta itemprop=givenName content="Ahmed">A.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Wen</span>, 
+<meta itemprop=givenName content="Bo">B.</span> & <span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Liu</span>, 
+<meta itemprop=givenName content="Yunfeng">Y.</span>
+ 
+(<span itemprop=datePublished>2021</span>).
+ <span itemprop=name>Roformer: Enhanced transformer with rotary position embedding</span>.<i>
+<span itemprop=about>arXiv preprint arXiv:2104.09864</span></i>.</span>
+</span></span>)</span>
+is an alternative to additive position encoding. It is multiplicative, instead of additive. And it applies to the key and query vectors, rather than the input vectors. Let&rsquo;s first see it in 2D case. Suppose we embedded each word token to a 2d vector, and calculated the query and key vectors. The RoPE method rotates each query or key vector with a rotation matrix. Take the query vector $q = (q_1, q_2)^T\in\mathbb{R}^2$ as an example:</p><p>$$\tag{🌟}
+\hat{q} = \begin{pmatrix}\cos m\theta & -\sin m\theta \newline \sin m\theta & \cos m\theta\end{pmatrix}\begin{pmatrix}q_1\newline q_2\end{pmatrix} = \begin{pmatrix} q_1\cdot\cos m\theta - q_2\cdot\sin m\theta \newline q_1\cdot\sin m\theta + q_2\cdot\cos m\theta\end{pmatrix}
+$$
+where $m$ is the position and $\theta$ is a preset small non-zero constant. Word vectors in different positions are rotated with different amounts according to $m\theta$. To generalize to $d$ dimensions, where $d$ has to be an even number, the method applies rotation matrices to each 2 dimension pairs, for a total of $d/2$ pairs. Specifically, the transformation matrix is a block matrix where each block is a 2d rotation matrix:
+$$
+\begin{pmatrix}
+\cos m\theta_1 & -\sin m\theta_1 & 0 & 0 & \cdots & 0 & 0 \newline
+\sin m\theta_1 & \cos m\theta_1 & 0 & 0 & \cdots & 0 & 0 \newline
+\vdots & \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \newline
+0 & 0 & \cdots & 0 & 0 & \cos m\theta_{d/2} & -\sin m\theta_{d/2} \newline
+0 & 0 & \cdots & 0 & 0 & \sin m\theta_{d/2} & \cos m\theta_{d/2}\newline
+\end{pmatrix}
+$$
+and the angles are pre-defined with $\{\theta_i = 10000^{-2(i-1)/d}, i=1,\ldots,d/2\}$.</p><p>Implementing RoPE as matrix multiplication takes lots of memories when $d$ is large. Representing each 2d sub-vector pair as a complex number will let us avoid matrix computation. Let&rsquo;s re-focus on the 2d case. The 2d rotation matrix has close connections with arithmetics in the 2d complex plane. Recall Euler&rsquo;s formula
+$$
+e^{i\theta} = \cos\theta + i\sin\theta.
+$$</p><p>For a complex number $q_1 + q_2i$,
+$$
+\begin{split}
+(q_1 + q_2i)e^{im\theta} &= (q_1 + q_2i)(\cos m\theta + i\sin m\theta)\newline
+&= (q_1\cdot\cos m\theta - q_2\cdot\sin m\theta) + (q_1\cdot\sin m\theta + q_2\cdot\cos m\theta)i.
+\end{split}
+$$</p><p>The real and imaginary parts of this complex number are <em>exactly</em> the first and second entry of the transformed query vector above (🌟). So to get the rotary embedding for vector $q$, first view it as a complex number, multiply it by $e^{im\theta}$, then assemble the real and imaginary parts as the position encoded vector.</p><p>Here are the implementation steps for one single 2d query vector $q$ with position $m$:</p><ol><li>View the 2d vector $q=(q_1, q_2)^T$ as a complex number $q_1 + q_2i$, where the first entry is the real part, and the second entry is the imaginary part. In PyTorch, this is</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>q</span>  <span class=o>=</span> <span class=n>torch</span><span class=o>.</span><span class=n>view_as_complex</span><span class=p>(</span><span class=n>q</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><ol start=2><li>Multiply the vector by $e^{im\theta}$. In PyTorch, $e^{im\theta}$ is <code>torch.polar(1, mθ)</code>.</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>q</span> <span class=o>=</span> <span class=n>q</span> <span class=o>*</span> <span class=n>torch</span><span class=o>.</span><span class=n>polar</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=n>mθ</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><ol start=3><li>Get the real part and the imaginary part of this complex number. In PyTorch, this is</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>q_out</span> <span class=o>=</span> <span class=n>torch</span><span class=o>.</span><span class=n>view_as_real</span><span class=p>(</span><span class=n>q</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>Here are the steps for $d$ dimensional query/key vectors , for all positions $m=0,\ldots,N-1$, with Llama source code as reference. The input will have dimension <code>(batch_size, seqlen, n_heads, head_dim)</code>.</p><table><thead><tr><th>dim</th><th>meaning</th></tr></thead><tbody><tr><td>0</td><td>batch size</td></tr><tr><td>1</td><td>sequence length</td></tr><tr><td>2</td><td>number of heads</td></tr><tr><td>3</td><td>head dimension</td></tr></tbody></table><ol><li>View each vector as a group of $d/2$ complex numbers. View dimension $(1, 2)$ as a complex number, dimension $(3, 4)$ as a complex number&mldr;&mldr;and so on. <code>torch.view_as_complex</code> expects the last dimension of its input to be of size 2, so we first reshape the input tensor as a list of 2 number pairs, then get the list of complex numbers via <code>view_as_complex</code>:</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>q_</span> <span class=o>=</span> <span class=n>torch</span><span class=o>.</span><span class=n>view_as_complex</span><span class=p>(</span><span class=n>q</span><span class=o>.</span><span class=n>reshape</span><span class=p>(</span><span class=o>*</span><span class=n>q</span><span class=o>.</span><span class=n>shape</span><span class=p>[:</span><span class=o>-</span><span class=mi>1</span><span class=p>],</span> <span class=o>-</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>))</span>
+</span></span></code></pre></td></tr></table></div></div><ol start=2><li>Multiply the first complex number by $e^{im\theta_1}$, multiply the second complex number by $e^{im\theta_2}$, and so on, until multiply the final complex number by $e^{im\theta_{d/2}}$. The complex numbers $\{e^{im\theta_1},e^{im\theta_2},\ldots,e^{im\theta_{d/2}}\}$ for all $m=0,\ldots,N-1$ are prepared by</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=k>def</span> <span class=nf>compute_exps</span><span class=p>(</span><span class=n>dim</span><span class=p>:</span> <span class=nb>int</span><span class=p>,</span> <span class=n>N</span><span class=p>:</span> <span class=nb>int</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=c1># This line prepares all the thetas {\theta_i = 10000^{-2(i-1)/d}, i=1,...,d/2}. The dimension of the output tensor `thetas` will be d/2, half the dimension of input x.</span>
+</span></span><span class=line><span class=cl>    <span class=n>thetas</span> <span class=o>=</span> <span class=mf>1.0</span> <span class=o>/</span> <span class=p>(</span><span class=mf>10000.0</span> <span class=o>**</span> <span class=p>(</span><span class=n>torch</span><span class=o>.</span><span class=n>arange</span><span class=p>(</span><span class=mi>0</span><span class=p>,</span> <span class=n>dim</span><span class=p>,</span> <span class=mi>2</span><span class=p>)</span> <span class=o>/</span> <span class=n>dim</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    <span class=c1># This line prepares all the positions (0,1,...,N-1).</span>
+</span></span><span class=line><span class=cl>    <span class=n>m</span> <span class=o>=</span> <span class=n>torch</span><span class=o>.</span><span class=n>arange</span><span class=p>(</span><span class=n>N</span><span class=p>,</span> <span class=n>device</span><span class=o>=</span><span class=n>thetas</span><span class=o>.</span><span class=n>device</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=c1># This line prepares all the angles $m\theta_i$, for all m and all i. For two tensors a and b with size N and d/2, `torch.outer(a, b)` is a^Tb, so the output has dimension Nx(d/2).</span>
+</span></span><span class=line><span class=cl>    <span class=n>angles</span> <span class=o>=</span> <span class=n>torch</span><span class=o>.</span><span class=n>outer</span><span class=p>(</span><span class=n>m</span><span class=p>,</span> <span class=n>thetas</span><span class=p>)</span><span class=o>.</span><span class=n>float</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=c1># This line computes {e^{im\theta_i}}, for all m and all \theta_i. Thus the output of the `compute_exps` function is a matrix, where each row is {e^{im\theta_1},e^{im\theta_2},...,e^{im\theta_{d/2}}} for a particular position m, for all positions m=0,...,N-1.</span>
+</span></span><span class=line><span class=cl>    <span class=n>exps</span> <span class=o>=</span> <span class=n>torch</span><span class=o>.</span><span class=n>polar</span><span class=p>(</span><span class=n>torch</span><span class=o>.</span><span class=n>ones_like</span><span class=p>(</span><span class=n>angles</span><span class=p>),</span> <span class=n>angles</span><span class=p>)</span>  <span class=c1># complex64</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>exps</span>
+</span></span></code></pre></td></tr></table></div></div><ol start=3><li>For each 2d dimension pair $(1, 2), (3,4), \ldots, (d-1, d)$, we have computed a complex number $q\cdot e^{im\theta}$, for a total number of $d/2$. Now we get the real and imaginary part of each complex number, and stack all of them together to get the output. <code>torch.view_as_real</code> is the inverse operation of <code>torch.view_as_complex</code>. That means the last dimension of the output from <code>torch.view_as_real</code> will be 2. That&rsquo;s why we need to call <code>.flatten(3)</code> to flatten the last dimension (remember from the input dimension table above that 3 is the last input shape position).</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=k>def</span> <span class=nf>apply_rotary_emb</span><span class=p>(</span><span class=n>q</span><span class=p>,</span> <span class=n>k</span><span class=p>,</span> <span class=n>exps</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=n>q_</span> <span class=o>=</span> <span class=n>torch</span><span class=o>.</span><span class=n>view_as_complex</span><span class=p>(</span><span class=n>q</span><span class=o>.</span><span class=n>float</span><span class=p>()</span><span class=o>.</span><span class=n>reshape</span><span class=p>(</span><span class=o>*</span><span class=n>q</span><span class=o>.</span><span class=n>shape</span><span class=p>[:</span><span class=o>-</span><span class=mi>1</span><span class=p>],</span> <span class=o>-</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    <span class=n>k_</span> <span class=o>=</span> <span class=n>torch</span><span class=o>.</span><span class=n>view_as_complex</span><span class=p>(</span><span class=n>k</span><span class=o>.</span><span class=n>float</span><span class=p>()</span><span class=o>.</span><span class=n>reshape</span><span class=p>(</span><span class=o>*</span><span class=n>k</span><span class=o>.</span><span class=n>shape</span><span class=p>[:</span><span class=o>-</span><span class=mi>1</span><span class=p>],</span> <span class=o>-</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    <span class=n>exps</span> <span class=o>=</span> <span class=n>reshape_for_broadcast</span><span class=p>(</span><span class=n>exps</span><span class=p>,</span> <span class=n>q_</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>q_out</span> <span class=o>=</span> <span class=n>torch</span><span class=o>.</span><span class=n>view_as_real</span><span class=p>(</span><span class=n>q_</span> <span class=o>*</span> <span class=n>exps</span><span class=p>)</span><span class=o>.</span><span class=n>flatten</span><span class=p>(</span><span class=mi>3</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>k_out</span> <span class=o>=</span> <span class=n>torch</span><span class=o>.</span><span class=n>view_as_real</span><span class=p>(</span><span class=n>k_</span> <span class=o>*</span> <span class=n>exps</span><span class=p>)</span><span class=o>.</span><span class=n>flatten</span><span class=p>(</span><span class=mi>3</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>q_out</span><span class=p>,</span> <span class=n>k_out</span>
+</span></span></code></pre></td></tr></table></div></div><p>Although RoPE is claimed to be a relative position embedding method, meaning that the similarity measure $\hat{q}_m\cdot\hat{k}_n$ between the position encoded query $\hat{q}_m$ and key $\hat{k}_n$ only depends on $m-n$, their relative position $m-n$, not their absolute positions, in RoPE implementation rotations to each query and key vector are applied according to their <em>absolute</em> positions $m$ and $n$ in the sequence, before $\hat{q}_m\cdot\hat{k}_n$ is computed. In this sense, RoPE is not <em>true</em> relative position embedding. Also, RoPE has long term decay property: the dot product of two position encoded vectors approaches zero as their distance increases. The assumption that a pair of long distance tokens should have less connection may not be desirable in applications involving long documents, e.g. contracts, legal documents, and financial reports.</p><h2 id=alibi-position-embedding>ALiBi position embedding<a hidden class=anchor aria-hidden=true href=#alibi-position-embedding>#</a></h2><p>Attention with Linear Biases (ALiBi)
+<span class=hugo-cite-intext itemprop=citation>(<span class=hugo-cite-group>
+<a href=#alibi-bibref><span class=visually-hidden>Citation: </span><span itemprop=author itemscope itemtype=https://schema.org/Person><meta itemprop=givenName content="Ofir"><span itemprop=familyName>Press</span></span>, <span itemprop=author itemscope itemtype=https://schema.org/Person><meta itemprop=givenName content="Noah A"><span itemprop=familyName>Smith</span></span>
+<em>& al.</em>, <span itemprop=datePublished>2021</span></a><span class=hugo-cite-citation>
+<span itemscope itemtype=https://schema.org/Article data-type=article><span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Press</span>, 
+<meta itemprop=givenName content="Ofir">O.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Smith</span>, 
+<meta itemprop=givenName content="Noah A">N.</span> & <span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Lewis</span>, 
+<meta itemprop=givenName content="Mike">M.</span>
+ 
+(<span itemprop=datePublished>2021</span>).
+ <span itemprop=name>Train short, test long: Attention with linear biases enables input length extrapolation</span>.<i>
+<span itemprop=about>arXiv preprint arXiv:2108.12409</span></i>.</span>
+</span></span>)</span>
+is an even simpler method to encode position information.</p><figure class=align-center><img loading=lazy src=/imgs/transformers/alibi.png#center alt="ALiBi positional embedding. Image source: paper"><figcaption><p>ALiBi positional embedding. Image source: paper</p></figcaption></figure><p>$m$ is a fixed scalar and is not learned. Ignoring $m$ for a second, the above figure has clear illustration of the method: biases $(-(N-1), \ldots, -2, -1, 0)$ are added to query and key dot products before applying softmax. For example, $-5$ is added to $q_5\cdot k_1$, $-1$ is added to $q_5\cdot k_4$, no bias is added to $q_5\cdot k_5$, and so on. There is no other positional encoding added elsewhere. Clearly, as distance gets larger, the negative bias will get large, and $\exp\{q\cdot k - N\}$ will decay to $0$ very fast as $N\to\infty$, resulting in 0 score and thus no lookups to distant tokens when generating the next token. As for RoPE, this property may not be desirable in real applications where one wants an LLM to process professional, long and complicated documents.</p><h2 id=flash-attention>Flash Attention<a hidden class=anchor aria-hidden=true href=#flash-attention>#</a></h2><p>Flash Attention
+<span class=hugo-cite-intext itemprop=citation>(<span class=hugo-cite-group>
+<a href=#flashattention-bibref><span class=visually-hidden>Citation: </span><span itemprop=author itemscope itemtype=https://schema.org/Person><meta itemprop=givenName content="Tri"><span itemprop=familyName>Dao</span></span>, <span itemprop=author itemscope itemtype=https://schema.org/Person><meta itemprop=givenName content="Dan"><span itemprop=familyName>Fu</span></span>
+<em>& al.</em>, <span itemprop=datePublished>2022</span></a><span class=hugo-cite-citation>
+<span itemscope itemtype=https://schema.org/Article data-type=article><span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Dao</span>, 
+<meta itemprop=givenName content="Tri">T.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Fu</span>, 
+<meta itemprop=givenName content="Dan">D.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Ermon</span>, 
+<meta itemprop=givenName content="Stefano">S.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Rudra</span>, 
+<meta itemprop=givenName content="Atri">A.</span> & <span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Ré</span>, 
+<meta itemprop=givenName content="Christopher">C.</span>
+ 
+(<span itemprop=datePublished>2022</span>).
+ <span itemprop=name>FlashAttention: Fast and memory-efficient exact attention with io-awareness</span>.<i>
+<span itemprop=about>Advances in Neural Information Processing Systems</span>, 35</i>. <span itemprop=pagination>16344–16359</span>.</span>
+</span></span>)</span>
+is a technique for speeding up attention computation on Nvidia GPUs for long sequences. There exists a memory <em>heirarchy</em> on GPU: high bandwidth memory (HBM) takes the bulk of GPU memory, but it is slower compared to SRAM, which is far smaller in size but is a dozen times faster than
+HBM.</p><figure class=align-center><img loading=lazy src=/imgs/transformers/gpu-memory.png#center alt="GPU memory hierarchy" height=300><figcaption><p>GPU memory hierarchy</p></figcaption></figure><p>Memory usage grows quadratically with the sequence length $N$. As $N$ goes to thousands and beyond, the attention matrix $QK^T$ will occupy a lot of space in GPU memory. Masking, softmax and dropout computation all require reading and writing the $N\times N$ attention matrix. It turns out that those memory reads/writes take up most of the computation time, much more than the actual matrix multiplication $QK^T$.</p><p>To reduce memory i/o, and to take advantage of SRAM&rsquo;s fast speed, the authors proposed two techniques:</p><ol><li><p>Tiling. This refers to loading <em>partial</em> blocks of the attention matrix from HBM to SRAM, computing attention on SRAM for such blocks, then finally concatenating the results by the correct scaling factors. This technique utilizes that fact that for a matrix $A = [A_1, A_2]$ that consists of two sub-matrices $A_1$ and $A_2$, the softmax of $A$ can be written as
+$$
+\mathrm{softmax}([A_1, A_2]) = [\alpha\cdot\mathrm{softmax}(A_1), \beta\cdot\mathrm{softmax}(A_2)]
+$$
+for some scaling factors $\alpha$ and $\beta$, and
+$$
+\mathrm{softmax}([A_1, A_2])\begin{bmatrix}V_1\newline V_2\end{bmatrix} = \alpha\cdot\mathrm{softmax}(A_1)V_1 + \beta\cdot\mathrm{softmax}(A_2)V_2,
+$$</p></li><li><p>Recomputation. During the backward pass, the attention matrix is needed for computing gradients of the weights, and again, reading this large matrix from HBM memory would be slow. The recomputation technique is straightforward: do not store the $N\times N$ attention matrix from forward pass (only store $N$ softmax normalizing factors), but recompute it in the backward pass. This incurs additional floating point operations (flops), but the runtime is reduced even with increased flops.</p><table><thead><tr><th>Attention</th><th>Standard</th><th>FlashAttention</th></tr></thead><tbody><tr><td>GFLOPs</td><td>66.6</td><td>75.2</td></tr><tr><td>HBM R/W (GB)</td><td>40.3</td><td>4.4</td></tr><tr><td>Runtime (ms)</td><td>41.7</td><td>7.3</td></tr></tbody></table><p><em>Source:
+<span class=hugo-cite-intext itemprop=citation>(<span class=hugo-cite-group>
+<a href=#flashattention-bibref><span class=visually-hidden>Citation: </span><span itemprop=author itemscope itemtype=https://schema.org/Person><meta itemprop=givenName content="Tri"><span itemprop=familyName>Dao</span></span>, <span itemprop=author itemscope itemtype=https://schema.org/Person><meta itemprop=givenName content="Dan"><span itemprop=familyName>Fu</span></span>
+<em>& al.</em>, <span itemprop=datePublished>2022</span></a><span class=hugo-cite-citation>
+<span itemscope itemtype=https://schema.org/Article data-type=article><span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Dao</span>, 
+<meta itemprop=givenName content="Tri">T.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Fu</span>, 
+<meta itemprop=givenName content="Dan">D.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Ermon</span>, 
+<meta itemprop=givenName content="Stefano">S.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Rudra</span>, 
+<meta itemprop=givenName content="Atri">A.</span> & <span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Ré</span>, 
+<meta itemprop=givenName content="Christopher">C.</span>
+ 
+(<span itemprop=datePublished>2022</span>).
+ <span itemprop=name>FlashAttention: Fast and memory-efficient exact attention with io-awareness</span>.<i>
+<span itemprop=about>Advances in Neural Information Processing Systems</span>, 35</i>. <span itemprop=pagination>16344–16359</span>.</span>
+</span></span>)</span></em></p></li></ol><p>For the same sequence length $N$, Flash Attention allows faster computation compared with traditional attention. In other words, this means that for the same training time budget, one can train models that are capable of dealing with longer contexts.</p><h2 id=pytorch-code>PyTorch code<a hidden class=anchor aria-hidden=true href=#pytorch-code>#</a></h2><p>The Transformer layer can be summarized into two equations:
+$$
+\begin{align}
+x &= x + \mathtt{attn}(\mathtt{n}_1(x))\\
+x &= x + \mathtt{ff}(\mathtt{n}_2(x))
+\end{align}
+$$</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span><span class=lnt>105
+</span><span class=lnt>106
+</span><span class=lnt>107
+</span><span class=lnt>108
+</span><span class=lnt>109
+</span><span class=lnt>110
+</span><span class=lnt>111
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>import</span> <span class=nn>torch</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>torch.nn</span> <span class=k>as</span> <span class=nn>nn</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>torch.nn.functional</span> <span class=k>as</span> <span class=nn>F</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>math</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>SelfAttention</span><span class=p>(</span><span class=n>nn</span><span class=o>.</span><span class=n>Module</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>d_model</span><span class=p>,</span> <span class=n>n_heads</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=nb>super</span><span class=p>()</span><span class=o>.</span><span class=fm>__init__</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>        <span class=k>assert</span> <span class=n>d_model</span> <span class=o>%</span> <span class=n>n_heads</span> <span class=o>==</span> <span class=mi>0</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>d_model</span> <span class=o>=</span> <span class=n>d_model</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>n_heads</span> <span class=o>=</span> <span class=n>n_heads</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>d_head</span> <span class=o>=</span> <span class=n>d_model</span> <span class=o>//</span> <span class=n>n_heads</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>qkv</span> <span class=o>=</span> <span class=n>nn</span><span class=o>.</span><span class=n>Linear</span><span class=p>(</span><span class=n>d_model</span><span class=p>,</span> <span class=mi>3</span> <span class=o>*</span> <span class=n>d_model</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>out</span> <span class=o>=</span> <span class=n>nn</span><span class=o>.</span><span class=n>Linear</span><span class=p>(</span><span class=n>d_model</span><span class=p>,</span> <span class=n>d_model</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>rope</span> <span class=o>=</span> <span class=n>RotaryEmbedding</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>forward</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>x</span><span class=p>,</span> <span class=n>mask</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=n>B</span><span class=p>,</span> <span class=n>T</span><span class=p>,</span> <span class=n>C</span> <span class=o>=</span> <span class=n>x</span><span class=o>.</span><span class=n>shape</span>  <span class=c1># B=batch, T=len(seq), C=channels (embedding dim)</span>
+</span></span><span class=line><span class=cl>        <span class=n>qkv</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>qkv</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>  <span class=c1># (B, T, 3C)</span>
+</span></span><span class=line><span class=cl>        <span class=n>q</span><span class=p>,</span> <span class=n>k</span><span class=p>,</span> <span class=n>v</span> <span class=o>=</span> <span class=n>qkv</span><span class=o>.</span><span class=n>chunk</span><span class=p>(</span><span class=mi>3</span><span class=p>,</span> <span class=n>dim</span><span class=o>=-</span><span class=mi>1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=c1># reshape to heads</span>
+</span></span><span class=line><span class=cl>        <span class=n>q</span> <span class=o>=</span> <span class=n>q</span><span class=o>.</span><span class=n>view</span><span class=p>(</span><span class=n>B</span><span class=p>,</span> <span class=n>T</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>n_heads</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>d_head</span><span class=p>)</span><span class=o>.</span><span class=n>transpose</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>)</span>  <span class=c1># process multi-heads as batch =&gt; compute in parallel</span>
+</span></span><span class=line><span class=cl>        <span class=n>k</span> <span class=o>=</span> <span class=n>k</span><span class=o>.</span><span class=n>view</span><span class=p>(</span><span class=n>B</span><span class=p>,</span> <span class=n>T</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>n_heads</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>d_head</span><span class=p>)</span><span class=o>.</span><span class=n>transpose</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>v</span> <span class=o>=</span> <span class=n>v</span><span class=o>.</span><span class=n>view</span><span class=p>(</span><span class=n>B</span><span class=p>,</span> <span class=n>T</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>n_heads</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>d_head</span><span class=p>)</span><span class=o>.</span><span class=n>transpose</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>q</span><span class=p>,</span> <span class=n>k</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>rope</span><span class=p>(</span><span class=n>q</span><span class=p>,</span> <span class=n>k</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>att</span> <span class=o>=</span> <span class=p>(</span><span class=n>q</span> <span class=o>@</span> <span class=n>k</span><span class=o>.</span><span class=n>transpose</span><span class=p>(</span><span class=o>-</span><span class=mi>2</span><span class=p>,</span> <span class=o>-</span><span class=mi>1</span><span class=p>))</span> <span class=o>/</span> <span class=n>math</span><span class=o>.</span><span class=n>sqrt</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>d_head</span><span class=p>)</span>  <span class=c1># [Txd] x [dxT] = [TxT]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=n>mask</span> <span class=ow>is</span> <span class=ow>not</span> <span class=kc>None</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=n>att</span> <span class=o>=</span> <span class=n>att</span><span class=o>.</span><span class=n>masked_fill</span><span class=p>(</span><span class=n>mask</span> <span class=o>==</span> <span class=mi>0</span><span class=p>,</span> <span class=nb>float</span><span class=p>(</span><span class=s2>&#34;-inf&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=n>att</span> <span class=o>=</span> <span class=n>F</span><span class=o>.</span><span class=n>softmax</span><span class=p>(</span><span class=n>att</span><span class=p>,</span> <span class=n>dim</span><span class=o>=-</span><span class=mi>1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>out</span> <span class=o>=</span> <span class=n>att</span> <span class=o>@</span> <span class=n>v</span>  <span class=c1># [TxT] x [Txd] = (B, heads, T, d)</span>
+</span></span><span class=line><span class=cl>        <span class=n>out</span> <span class=o>=</span> <span class=n>out</span><span class=o>.</span><span class=n>transpose</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>)</span><span class=o>.</span><span class=n>contiguous</span><span class=p>()</span><span class=o>.</span><span class=n>view</span><span class=p>(</span><span class=n>B</span><span class=p>,</span> <span class=n>T</span><span class=p>,</span> <span class=n>C</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>out</span><span class=p>(</span><span class=n>out</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>TransformerBlock</span><span class=p>(</span><span class=n>nn</span><span class=o>.</span><span class=n>Module</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>d_model</span><span class=p>,</span> <span class=n>n_heads</span><span class=p>,</span> <span class=n>d_ff</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=nb>super</span><span class=p>()</span><span class=o>.</span><span class=fm>__init__</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>attn</span> <span class=o>=</span> <span class=n>SelfAttention</span><span class=p>(</span><span class=n>d_model</span><span class=p>,</span> <span class=n>n_heads</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>norm1</span> <span class=o>=</span> <span class=n>nn</span><span class=o>.</span><span class=n>LayerNorm</span><span class=p>(</span><span class=n>d_model</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>ff</span> <span class=o>=</span> <span class=n>nn</span><span class=o>.</span><span class=n>Sequential</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>            <span class=n>nn</span><span class=o>.</span><span class=n>Linear</span><span class=p>(</span><span class=n>d_model</span><span class=p>,</span> <span class=n>d_ff</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>            <span class=n>nn</span><span class=o>.</span><span class=n>ReLU</span><span class=p>(),</span>
+</span></span><span class=line><span class=cl>            <span class=n>nn</span><span class=o>.</span><span class=n>Linear</span><span class=p>(</span><span class=n>d_ff</span><span class=p>,</span> <span class=n>d_model</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>norm2</span> <span class=o>=</span> <span class=n>nn</span><span class=o>.</span><span class=n>LayerNorm</span><span class=p>(</span><span class=n>d_model</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>forward</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>x</span><span class=p>,</span> <span class=n>mask</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=n>x</span> <span class=o>=</span> <span class=n>x</span> <span class=o>+</span> <span class=bp>self</span><span class=o>.</span><span class=n>attn</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>norm1</span><span class=p>(</span><span class=n>x</span><span class=p>),</span> <span class=n>mask</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>x</span> <span class=o>=</span> <span class=n>x</span> <span class=o>+</span> <span class=bp>self</span><span class=o>.</span><span class=n>ff</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>norm2</span><span class=p>(</span><span class=n>x</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>x</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>Transformer</span><span class=p>(</span><span class=n>nn</span><span class=o>.</span><span class=n>Module</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>vocab_size</span><span class=p>,</span> <span class=n>d_model</span><span class=o>=</span><span class=mi>512</span><span class=p>,</span> <span class=n>n_heads</span><span class=o>=</span><span class=mi>4</span><span class=p>,</span> <span class=n>n_layers</span><span class=o>=</span><span class=mi>12</span><span class=p>,</span> <span class=n>d_ff</span><span class=o>=</span><span class=mi>256</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=nb>super</span><span class=p>()</span><span class=o>.</span><span class=fm>__init__</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>token_emb</span> <span class=o>=</span> <span class=n>nn</span><span class=o>.</span><span class=n>Embedding</span><span class=p>(</span><span class=n>vocab_size</span><span class=p>,</span> <span class=n>d_model</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>layers</span> <span class=o>=</span> <span class=n>nn</span><span class=o>.</span><span class=n>ModuleList</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>            <span class=n>TransformerBlock</span><span class=p>(</span><span class=n>d_model</span><span class=p>,</span> <span class=n>n_heads</span><span class=p>,</span> <span class=n>d_ff</span><span class=p>)</span> <span class=k>for</span> <span class=n>_</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=n>n_layers</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>])</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>norm</span> <span class=o>=</span> <span class=n>nn</span><span class=o>.</span><span class=n>LayerNorm</span><span class=p>(</span><span class=n>d_model</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>unembedding</span> <span class=o>=</span> <span class=n>nn</span><span class=o>.</span><span class=n>Linear</span><span class=p>(</span><span class=n>d_model</span><span class=p>,</span> <span class=n>vocab_size</span><span class=p>,</span> <span class=n>bias</span><span class=o>=</span><span class=kc>False</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>forward</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>idx</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=n>x</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>token_emb</span><span class=p>(</span><span class=n>idx</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=n>layer</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>layers</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=n>x</span> <span class=o>=</span> <span class=n>layer</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>x</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>norm</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>unembedding</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=nd>@staticmethod</span>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>from_checkpoint</span><span class=p>(</span><span class=n>path</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=n>model</span> <span class=o>=</span> <span class=n>Transformer</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>        <span class=n>model</span><span class=o>.</span><span class=n>load_state_dict</span><span class=p>(</span><span class=n>torch</span><span class=o>.</span><span class=n>load</span><span class=p>(</span><span class=n>path</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>model</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>TokenGenerator</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=nd>@torch.inference_mode</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>checkpoint</span><span class=p>:</span> <span class=nb>str</span><span class=p>,</span> <span class=n>device</span><span class=p>:</span> <span class=n>torch</span><span class=o>.</span><span class=n>device</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>device</span> <span class=o>=</span> <span class=n>device</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>model</span> <span class=o>=</span> <span class=n>Transformer</span><span class=o>.</span><span class=n>from_checkpoint</span><span class=p>(</span><span class=n>checkpoint</span><span class=p>,</span> <span class=n>device</span><span class=o>=</span><span class=bp>self</span><span class=o>.</span><span class=n>device</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nd>@torch.inference_mode</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>generate</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                 <span class=n>prompt_tokens</span><span class=p>:</span> <span class=nb>list</span><span class=p>[</span><span class=nb>int</span><span class=p>],</span>
+</span></span><span class=line><span class=cl>                 <span class=n>stop_tokens</span><span class=p>:</span> <span class=nb>list</span><span class=p>[</span><span class=nb>int</span><span class=p>],</span>
+</span></span><span class=line><span class=cl>                 <span class=n>temperature</span><span class=p>:</span> <span class=nb>float</span> <span class=o>=</span> <span class=mf>1.0</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                 <span class=n>max_tokens</span><span class=p>:</span> <span class=nb>int</span> <span class=o>=</span> <span class=mi>0</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                 <span class=n>return_logprobs</span><span class=p>:</span> <span class=nb>bool</span> <span class=o>=</span> <span class=kc>False</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=n>tokens</span> <span class=o>=</span> <span class=nb>list</span><span class=p>(</span><span class=n>prompt_tokens</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>num_generated_tokens</span> <span class=o>=</span> <span class=mi>0</span>
+</span></span><span class=line><span class=cl>        <span class=k>while</span> <span class=n>max_tokens</span> <span class=o>==</span> <span class=mi>0</span> <span class=ow>or</span> <span class=n>num_generated_tokens</span> <span class=o>&lt;</span> <span class=n>max_tokens</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=n>logits</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>model</span><span class=p>(</span><span class=n>torch</span><span class=o>.</span><span class=n>as_tensor</span><span class=p>(</span><span class=n>tokens</span><span class=p>,</span> <span class=n>dtype</span><span class=o>=</span><span class=n>torch</span><span class=o>.</span><span class=n>int32</span><span class=p>,</span> <span class=n>device</span><span class=o>=</span><span class=bp>self</span><span class=o>.</span><span class=n>device</span><span class=p>))[</span><span class=o>-</span><span class=mi>1</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=n>temperature</span> <span class=o>==</span> <span class=mf>0.0</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>                <span class=n>predicted_token</span> <span class=o>=</span> <span class=n>torch</span><span class=o>.</span><span class=n>argmax</span><span class=p>(</span><span class=n>logits</span><span class=p>,</span> <span class=n>dim</span><span class=o>=-</span><span class=mi>1</span><span class=p>)</span><span class=o>.</span><span class=n>item</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>            <span class=k>else</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>                <span class=n>probs</span> <span class=o>=</span> <span class=n>torch</span><span class=o>.</span><span class=n>softmax</span><span class=p>(</span><span class=n>logits</span> <span class=o>*</span> <span class=p>(</span><span class=mf>1.0</span> <span class=o>/</span> <span class=n>temperature</span><span class=p>),</span> <span class=n>dim</span><span class=o>=-</span><span class=mi>1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>                <span class=n>predicted_token</span> <span class=o>=</span> <span class=n>torch</span><span class=o>.</span><span class=n>multinomial</span><span class=p>(</span><span class=n>probs</span><span class=p>,</span> <span class=n>num_samples</span><span class=o>=</span><span class=mi>1</span><span class=p>)</span><span class=o>.</span><span class=n>item</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>            <span class=n>tokens</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>predicted_token</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=n>num_generated_tokens</span> <span class=o>+=</span> <span class=mi>1</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=n>return_logprobs</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>                <span class=n>logprobs</span> <span class=o>=</span> <span class=n>torch</span><span class=o>.</span><span class=n>log_softmax</span><span class=p>(</span><span class=n>logits</span><span class=p>,</span> <span class=n>dim</span><span class=o>=-</span><span class=mi>1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>                <span class=n>selected_logprobs</span> <span class=o>=</span> <span class=n>logprobs</span><span class=p>[</span><span class=n>predicted_token</span><span class=p>]</span><span class=o>.</span><span class=n>item</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>                <span class=k>yield</span> <span class=n>predicted_token</span><span class=p>,</span> <span class=n>selected_logprobs</span>
+</span></span><span class=line><span class=cl>            <span class=k>else</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>                <span class=k>yield</span> <span class=n>predicted_token</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=n>predicted_token</span> <span class=ow>in</span> <span class=n>stop_tokens</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>                <span class=k>break</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=references>References<a hidden class=anchor aria-hidden=true href=#references>#</a></h2><section class=hugo-cite-bibliography><div id=alibi-bibref>[1]
+<span itemscope itemtype=https://schema.org/Article data-type=article><span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Press</span>, 
+<meta itemprop=givenName content="Ofir">O.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Smith</span>, 
+<meta itemprop=givenName content="Noah A">N.</span> & <span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Lewis</span>, 
+<meta itemprop=givenName content="Mike">M.</span>
+ 
+(<span itemprop=datePublished>2021</span>).
+ <span itemprop=name>Train short, test long: Attention with linear biases enables input length extrapolation</span>.<i>
+<span itemprop=about>arXiv preprint arXiv:2108.12409</span></i>.</span></div><div id=attention-bibref>[2]
+<span itemscope itemtype=https://schema.org/Article data-type=article><span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Bahdanau</span>, 
+<meta itemprop=givenName content="Dzmitry">D.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Cho</span>, 
+<meta itemprop=givenName content="Kyunghyun">K.</span> & <span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Bengio</span>, 
+<meta itemprop=givenName content="Yoshua">Y.</span>
+ 
+(<span itemprop=datePublished>2014</span>).
+ <span itemprop=name>Neural machine translation by jointly learning to align and translate</span>.<i>
+<span itemprop=about>arXiv preprint arXiv:1409.0473</span></i>.</span></div><div id=batchnorm-bibref>[3]
+<span itemscope itemtype=https://schema.org/CreativeWork data-type=paper-conference><span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Ioffe</span>, 
+<meta itemprop=givenName content="Sergey">S.</span> & <span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Szegedy</span>, 
+<meta itemprop=givenName content="Christian">C.</span>
+ 
+(<span itemprop=datePublished>2015</span>).
+ <span itemprop=name><i>Batch normalization: Accelerating deep network training by reducing internal covariate shift</i></span>.
+ 
+<span itemprop=publisher itemtype=http://schema.org/Organization itemscope><span itemprop=name>pmlr</span></span>.</span></div><div id=bookcorpus-bibref>[4]
+<span itemscope itemtype=https://schema.org/CreativeWork data-type=paper-conference><span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Zhu</span>, 
+<meta itemprop=givenName content="Yukun">Y.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Kiros</span>, 
+<meta itemprop=givenName content="Ryan">R.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Zemel</span>, 
+<meta itemprop=givenName content="Rich">R.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Salakhutdinov</span>, 
+<meta itemprop=givenName content="Ruslan">R.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Urtasun</span>, 
+<meta itemprop=givenName content="Raquel">R.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Torralba</span>, 
+<meta itemprop=givenName content="Antonio">A.</span> & <span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Fidler</span>, 
+<meta itemprop=givenName content="Sanja">S.</span>
+ 
+(<span itemprop=datePublished>2015</span>).
+ <span itemprop=name><i>Aligning books and movies: Towards story-like visual explanations by watching movies and reading books</i></span>.</span></div><div id=flashattention-bibref>[5]
+<span itemscope itemtype=https://schema.org/Article data-type=article><span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Dao</span>, 
+<meta itemprop=givenName content="Tri">T.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Fu</span>, 
+<meta itemprop=givenName content="Dan">D.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Ermon</span>, 
+<meta itemprop=givenName content="Stefano">S.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Rudra</span>, 
+<meta itemprop=givenName content="Atri">A.</span> & <span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Ré</span>, 
+<meta itemprop=givenName content="Christopher">C.</span>
+ 
+(<span itemprop=datePublished>2022</span>).
+ <span itemprop=name>FlashAttention: Fast and memory-efficient exact attention with io-awareness</span>.<i>
+<span itemprop=about>Advances in Neural Information Processing Systems</span>, 35</i>. <span itemprop=pagination>16344–16359</span>.</span></div><div id=gpt1-bibref>[6]
+<span itemscope itemtype=https://schema.org/Article data-type=article><span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Radford</span>, 
+<meta itemprop=givenName content="Alec">A.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Narasimhan</span>, 
+<meta itemprop=givenName content="Karthik">K.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Salimans</span>, 
+<meta itemprop=givenName content="Tim">T.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Sutskever</span>, 
+<meta itemprop=givenName content="Ilya">I.</span> & <span itemprop=author itemscope itemtype=https://schema.org/Person></span>
+ 
+(<span itemprop=datePublished>2018</span>).
+ <span itemprop=name>Improving language understanding by generative pre-training</span>.</span></div><div id=gpt2-bibref>[7]
+<span itemscope itemtype=https://schema.org/Article data-type=article><span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Radford</span>, 
+<meta itemprop=givenName content="Alec">A.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Wu</span>, 
+<meta itemprop=givenName content="Jeffrey">J.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Child</span>, 
+<meta itemprop=givenName content="Rewon">R.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Luan</span>, 
+<meta itemprop=givenName content="David">D.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Amodei</span>, 
+<meta itemprop=givenName content="Dario">D.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Sutskever</span>, 
+<meta itemprop=givenName content="Ilya">I.</span> & <span itemprop=author itemscope itemtype=https://schema.org/Person></span>
+ 
+(<span itemprop=datePublished>2019</span>).
+ <span itemprop=name>Language models are unsupervised multitask learners</span>.<i>
+<span itemprop=about>OpenAI blog</span>, 1(8)</i>. <span itemprop=pagination>9</span>.</span></div><div id=gpt3-bibref>[8]
+<span itemscope itemtype=https://schema.org/Article data-type=article><span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Brown</span>, 
+<meta itemprop=givenName content="Tom">T.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Mann</span>, 
+<meta itemprop=givenName content="Benjamin">B.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Ryder</span>, 
+<meta itemprop=givenName content="Nick">N.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Subbiah</span>, 
+<meta itemprop=givenName content="Melanie">M.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Kaplan</span>, 
+<meta itemprop=givenName content="Jared D">J.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Dhariwal</span>, 
+<meta itemprop=givenName content="Prafulla">P.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Neelakantan</span>, 
+<meta itemprop=givenName content="Arvind">A.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Shyam</span>, 
+<meta itemprop=givenName content="Pranav">P.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Sastry</span>, 
+<meta itemprop=givenName content="Girish">G.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Askell</span>, 
+<meta itemprop=givenName content="Amanda">A.</span> & <span itemprop=author itemscope itemtype=https://schema.org/Person></span>
+ 
+(<span itemprop=datePublished>2020</span>).
+ <span itemprop=name>Language models are few-shot learners</span>.<i>
+<span itemprop=about>Advances in neural information processing systems</span>, 33</i>. <span itemprop=pagination>1877–1901</span>.</span></div><div id=instructgpt-bibref>[9]
+<span itemscope itemtype=https://schema.org/Article data-type=article><span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Ouyang</span>, 
+<meta itemprop=givenName content="Long">L.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Wu</span>, 
+<meta itemprop=givenName content="Jeffrey">J.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Jiang</span>, 
+<meta itemprop=givenName content="Xu">X.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Almeida</span>, 
+<meta itemprop=givenName content="Diogo">D.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Wainwright</span>, 
+<meta itemprop=givenName content="Carroll">C.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Mishkin</span>, 
+<meta itemprop=givenName content="Pamela">P.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Zhang</span>, 
+<meta itemprop=givenName content="Chong">C.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Agarwal</span>, 
+<meta itemprop=givenName content="Sandhini">S.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Slama</span>, 
+<meta itemprop=givenName content="Katarina">K.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Ray</span>, 
+<meta itemprop=givenName content="Alex">A.</span> & <span itemprop=author itemscope itemtype=https://schema.org/Person></span>
+ 
+(<span itemprop=datePublished>2022</span>).
+ <span itemprop=name>Training language models to follow instructions with human feedback</span>.<i>
+<span itemprop=about>Advances in neural information processing systems</span>, 35</i>. <span itemprop=pagination>27730–27744</span>.</span></div><div id=layernorm-bibref>[10]
+<span itemscope itemtype=https://schema.org/Article data-type=article><span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Ba</span>, 
+<meta itemprop=givenName content="Jimmy Lei">J.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Kiros</span>, 
+<meta itemprop=givenName content="Jamie Ryan">J.</span> & <span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Hinton</span>, 
+<meta itemprop=givenName content="Geoffrey E">G.</span>
+ 
+(<span itemprop=datePublished>2016</span>).
+ <span itemprop=name>Layer normalization</span>.<i>
+<span itemprop=about>arXiv preprint arXiv:1607.06450</span></i>.</span></div><div id=rmsnorm-bibref>[11]
+<span itemscope itemtype=https://schema.org/Article data-type=article><span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Zhang</span>, 
+<meta itemprop=givenName content="Biao">B.</span> & <span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Sennrich</span>, 
+<meta itemprop=givenName content="Rico">R.</span>
+ 
+(<span itemprop=datePublished>2019</span>).
+ <span itemprop=name>Root mean square layer normalization</span>.<i>
+<span itemprop=about>Advances in Neural Information Processing Systems</span>, 32</i>.</span></div><div id=rope-bibref>[12]
+<span itemscope itemtype=https://schema.org/Article data-type=article><span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Su</span>, 
+<meta itemprop=givenName content="Jianlin">J.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Lu</span>, 
+<meta itemprop=givenName content="Yu">Y.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Pan</span>, 
+<meta itemprop=givenName content="Shengfeng">S.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Murtadha</span>, 
+<meta itemprop=givenName content="Ahmed">A.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Wen</span>, 
+<meta itemprop=givenName content="Bo">B.</span> & <span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Liu</span>, 
+<meta itemprop=givenName content="Yunfeng">Y.</span>
+ 
+(<span itemprop=datePublished>2021</span>).
+ <span itemprop=name>Roformer: Enhanced transformer with rotary position embedding</span>.<i>
+<span itemprop=about>arXiv preprint arXiv:2104.09864</span></i>.</span></div><div id=swiglu-bibref>[13]
+<span itemscope itemtype=https://schema.org/Article data-type=article><span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Shazeer</span>, 
+<meta itemprop=givenName content="Noam">N.</span>
+ 
+(<span itemprop=datePublished>2020</span>).
+ <span itemprop=name>Glu variants improve transformer</span>.<i>
+<span itemprop=about>arXiv preprint arXiv:2002.05202</span></i>.</span></div><div id=swish-bibref>[14]
+<span itemscope itemtype=https://schema.org/Article data-type=article><span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Ramachandran</span>, 
+<meta itemprop=givenName content="Prajit">P.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Zoph</span>, 
+<meta itemprop=givenName content="Barret">B.</span> & <span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Le</span>, 
+<meta itemprop=givenName content="Quoc V">Q.</span>
+ 
+(<span itemprop=datePublished>2017</span>).
+ <span itemprop=name>Searching for activation functions</span>.<i>
+<span itemprop=about>arXiv preprint arXiv:1710.05941</span></i>.</span></div><div id=transformer-bibref>[15]
+<span itemscope itemtype=https://schema.org/Article data-type=article><span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Vaswani</span>, 
+<meta itemprop=givenName content="Ashish">A.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Shazeer</span>, 
+<meta itemprop=givenName content="Noam">N.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Parmar</span>, 
+<meta itemprop=givenName content="Niki">N.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Uszkoreit</span>, 
+<meta itemprop=givenName content="Jakob">J.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Jones</span>, 
+<meta itemprop=givenName content="Llion">L.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Gomez</span>, 
+<meta itemprop=givenName content="Aidan N">A.</span>, 
+<span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Kaiser</span>, 
+<meta itemprop=givenName content="Łukasz">Ł.</span> & <span itemprop=author itemscope itemtype=https://schema.org/Person><span itemprop=familyName>Polosukhin</span>, 
+<meta itemprop=givenName content="Illia">I.</span>
+ 
+(<span itemprop=datePublished>2017</span>).
+ <span itemprop=name>Attention is all you need</span>.<i>
+<span itemprop=about>Advances in neural information processing systems</span>, 30</i>.</span></div></section></div><footer class=post-footer><ul class=post-tags><li><a href=https://0ffy.github.io/tags/llm/>Llm</a></li><li><a href=https://0ffy.github.io/tags/attention/>Attention</a></li><li><a href=https://0ffy.github.io/tags/transformer/>Transformer</a></li><li><a href=https://0ffy.github.io/tags/llama/>Llama</a></li></ul><nav class=paginav><a class=prev href=https://0ffy.github.io/posts/2024-02-12-vision-models/><span class=title>« Prev</span>
+<span>Vision Models</span>
+</a><a class=next href=https://0ffy.github.io/posts/2022-06-01-database/><span class=title>Next »</span>
+<span>Databases</span></a></nav><ul class=share-buttons><li><a target=_blank rel="noopener noreferrer" aria-label="share GPT and Transformers on x" href="https://x.com/intent/tweet/?text=GPT%20and%20Transformers&amp;url=https%3a%2f%2f0ffy.github.io%2fposts%2f2023-08-31-transformers%2f&amp;hashtags=llm%2cattention%2ctransformer%2cllama"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446C483.971.0 512 28.03 512 62.554zM269.951 190.75 182.567 75.216H56L207.216 272.95 63.9 436.783h61.366L235.9 310.383l96.667 126.4H456L298.367 228.367l134-153.151H371.033zM127.633 110h36.468l219.38 290.065H349.5z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share GPT and Transformers on linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2f0ffy.github.io%2fposts%2f2023-08-31-transformers%2f&amp;title=GPT%20and%20Transformers&amp;summary=GPT%20and%20Transformers&amp;source=https%3a%2f%2f0ffy.github.io%2fposts%2f2023-08-31-transformers%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM160.461 423.278V197.561h-75.04v225.717h75.04zm270.539.0V293.839c0-69.333-37.018-101.586-86.381-101.586-39.804.0-57.634 21.891-67.617 37.266v-31.958h-75.021c.995 21.181.0 225.717.0 225.717h75.02V297.222c0-6.748.486-13.492 2.474-18.315 5.414-13.475 17.767-27.434 38.494-27.434 27.135.0 38.007 20.707 38.007 51.037v120.768H431zM123.448 88.722C97.774 88.722 81 105.601 81 127.724c0 21.658 16.264 39.002 41.455 39.002h.484c26.165.0 42.452-17.344 42.452-39.002-.485-22.092-16.241-38.954-41.943-39.002z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share GPT and Transformers on reddit" href="https://reddit.com/submit?url=https%3a%2f%2f0ffy.github.io%2fposts%2f2023-08-31-transformers%2f&title=GPT%20and%20Transformers"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM446 265.638c0-22.964-18.616-41.58-41.58-41.58-11.211.0-21.361 4.457-28.841 11.666-28.424-20.508-67.586-33.757-111.204-35.278l18.941-89.121 61.884 13.157c.756 15.734 13.642 28.29 29.56 28.29 16.407.0 29.706-13.299 29.706-29.701.0-16.403-13.299-29.702-29.706-29.702-11.666.0-21.657 6.792-26.515 16.578l-69.105-14.69c-1.922-.418-3.939-.042-5.585 1.036-1.658 1.073-2.811 2.761-3.224 4.686l-21.152 99.438c-44.258 1.228-84.046 14.494-112.837 35.232-7.468-7.164-17.589-11.591-28.757-11.591-22.965.0-41.585 18.616-41.585 41.58.0 16.896 10.095 31.41 24.568 37.918-.639 4.135-.99 8.328-.99 12.576.0 63.977 74.469 115.836 166.33 115.836s166.334-51.859 166.334-115.836c0-4.218-.347-8.387-.977-12.493 14.564-6.47 24.735-21.034 24.735-38.001zM326.526 373.831c-20.27 20.241-59.115 21.816-70.534 21.816-11.428.0-50.277-1.575-70.522-21.82-3.007-3.008-3.007-7.882.0-10.889 3.003-2.999 7.882-3.003 10.885.0 12.777 12.781 40.11 17.317 59.637 17.317 19.522.0 46.86-4.536 59.657-17.321 3.016-2.999 7.886-2.995 10.885.008 3.008 3.011 3.003 7.882-.008 10.889zm-5.23-48.781c-16.373.0-29.701-13.324-29.701-29.698.0-16.381 13.328-29.714 29.701-29.714 16.378.0 29.706 13.333 29.706 29.714.0 16.374-13.328 29.698-29.706 29.698zM160.91 295.348c0-16.381 13.328-29.71 29.714-29.71 16.369.0 29.689 13.329 29.689 29.71.0 16.373-13.32 29.693-29.689 29.693-16.386.0-29.714-13.32-29.714-29.693z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share GPT and Transformers on facebook" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2f0ffy.github.io%2fposts%2f2023-08-31-transformers%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H342.978V319.085h66.6l12.672-82.621h-79.272v-53.617c0-22.603 11.073-44.636 46.58-44.636H425.6v-70.34s-32.71-5.582-63.982-5.582c-65.288.0-107.96 39.569-107.96 111.204v62.971h-72.573v82.621h72.573V512h-191.104c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share GPT and Transformers on whatsapp" href="https://api.whatsapp.com/send?text=GPT%20and%20Transformers%20-%20https%3a%2f%2f0ffy.github.io%2fposts%2f2023-08-31-transformers%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zm-58.673 127.703c-33.842-33.881-78.847-52.548-126.798-52.568-98.799.0-179.21 80.405-179.249 179.234-.013 31.593 8.241 62.428 23.927 89.612l-25.429 92.884 95.021-24.925c26.181 14.28 55.659 21.807 85.658 21.816h.074c98.789.0 179.206-80.413 179.247-179.243.018-47.895-18.61-92.93-52.451-126.81zM263.976 403.485h-.06c-26.734-.01-52.954-7.193-75.828-20.767l-5.441-3.229-56.386 14.792 15.05-54.977-3.542-5.637c-14.913-23.72-22.791-51.136-22.779-79.287.033-82.142 66.867-148.971 149.046-148.971 39.793.014 77.199 15.531 105.329 43.692 28.128 28.16 43.609 65.592 43.594 105.4-.034 82.149-66.866 148.983-148.983 148.984zm81.721-111.581c-4.479-2.242-26.499-13.075-30.604-14.571-4.105-1.495-7.091-2.241-10.077 2.241-2.986 4.483-11.569 14.572-14.182 17.562-2.612 2.988-5.225 3.364-9.703 1.12-4.479-2.241-18.91-6.97-36.017-22.23C231.8 264.15 222.81 249.484 220.198 245s-.279-6.908 1.963-9.14c2.016-2.007 4.48-5.232 6.719-7.847 2.24-2.615 2.986-4.484 4.479-7.472 1.493-2.99.747-5.604-.374-7.846-1.119-2.241-10.077-24.288-13.809-33.256-3.635-8.733-7.327-7.55-10.077-7.688-2.609-.13-5.598-.158-8.583-.158-2.986.0-7.839 1.121-11.944 5.604-4.105 4.484-15.675 15.32-15.675 37.364.0 22.046 16.048 43.342 18.287 46.332 2.24 2.99 31.582 48.227 76.511 67.627 10.685 4.615 19.028 7.371 25.533 9.434 10.728 3.41 20.492 2.929 28.209 1.775 8.605-1.285 26.499-10.833 30.231-21.295 3.732-10.464 3.732-19.431 2.612-21.298-1.119-1.869-4.105-2.99-8.583-5.232z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share GPT and Transformers on telegram" href="https://telegram.me/share/url?text=GPT%20and%20Transformers&amp;url=https%3a%2f%2f0ffy.github.io%2fposts%2f2023-08-31-transformers%2f"><svg viewBox="2 2 28 28" height="30" width="30" fill="currentColor"><path d="M26.49 29.86H5.5a3.37 3.37.0 01-2.47-1 3.35 3.35.0 01-1-2.47V5.48A3.36 3.36.0 013 3 3.37 3.37.0 015.5 2h21A3.38 3.38.0 0129 3a3.36 3.36.0 011 2.46V26.37a3.35 3.35.0 01-1 2.47 3.38 3.38.0 01-2.51 1.02zm-5.38-6.71a.79.79.0 00.85-.66L24.73 9.24a.55.55.0 00-.18-.46.62.62.0 00-.41-.17q-.08.0-16.53 6.11a.59.59.0 00-.41.59.57.57.0 00.43.52l4 1.24 1.61 4.83a.62.62.0 00.63.43.56.56.0 00.4-.17L16.54 20l4.09 3A.9.9.0 0021.11 23.15zM13.8 20.71l-1.21-4q8.72-5.55 8.78-5.55c.15.0.23.0.23.16a.18.18.0 010 .06s-2.51 2.3-7.52 6.8z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share GPT and Transformers on ycombinator" href="https://news.ycombinator.com/submitlink?t=GPT%20and%20Transformers&u=https%3a%2f%2f0ffy.github.io%2fposts%2f2023-08-31-transformers%2f"><svg width="30" height="30" viewBox="0 0 512 512" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446zM183.8767 87.9921h-62.034L230.6673 292.4508V424.0079h50.6655V292.4508L390.1575 87.9921H328.1233L256 238.2489z"/></svg></a></li></ul></footer></article></main><footer class=footer><span>&copy; 2026 <a href=https://0ffy.github.io/>0ffy</a></span> ·
+<span>Powered by
+<a href="https://gohugo.io/?utm_source=papermod" rel=noopener target=_blank>Hugo</a> &
+<a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top id=top-link class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey=g><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg>
+</a><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"auto"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var toplink=document.getElementById("top-link");window.onscroll=function(){const e=window.innerHeight;document.body.scrollTop>e||document.documentElement.scrollTop>e?toplink.classList.remove("hidden"):toplink.classList.add("hidden")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="copy";function s(){t.innerHTML="copied!",setTimeout(()=>{t.innerHTML="copy"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>

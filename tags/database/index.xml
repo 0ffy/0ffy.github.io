@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Database on 0ffy</title>
+    <link>https://0ffy.github.io/tags/database/</link>
+    <description>Recent content in Database on 0ffy</description>
+    <image>
+      <title>0ffy</title>
+      <url>https://0ffy.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://0ffy.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 01 Jun 2022 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://0ffy.github.io/tags/database/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Databases</title>
+      <link>https://0ffy.github.io/posts/2022-06-01-database/</link>
+      <pubDate>Wed, 01 Jun 2022 00:00:00 +0000</pubDate>
+      <guid>https://0ffy.github.io/posts/2022-06-01-database/</guid>
+      <description>&lt;h2 id=&#34;sql&#34;&gt;SQL&lt;/h2&gt;
+&lt;p&gt;A database is a software for storing data. There are many many databases available. They can be broadly classified into two categories: one is relational database, including MySQL and PostgreSQL. They other category is non-relational database, including MongoDB, Cassandra, neo4j, Dgraph and many others. Here we are concerned with SQL, the common syntax for querying relational databases.&lt;/p&gt;
+&lt;h3 id=&#34;download-a-database&#34;&gt;Download a database&lt;/h3&gt;
+&lt;p&gt;&lt;img alt=&#34;PostgreSQL vs MySQL&#34; loading=&#34;lazy&#34; src=&#34;https://0ffy.github.io/imgs/prev/postgres-vs-mysql.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;To practice writing SQL queries, you need to install a database on your computer first. You can download either MySQL or PostgreSQL. Both are open sourced, but MySQL is more widely used than PostgreSQL. Notably, PostgreSQL has more data types and functions, so it is more powerful, but it is also more complex and more difficult to learn. Query syntax for the two databases are largely similar, but not entirely the same, especially for functions.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

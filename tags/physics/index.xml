@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Physics on 0ffy</title>
+    <link>https://0ffy.github.io/tags/physics/</link>
+    <description>Recent content in Physics on 0ffy</description>
+    <image>
+      <title>0ffy</title>
+      <url>https://0ffy.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://0ffy.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 11 Mar 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://0ffy.github.io/tags/physics/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Physics Reference</title>
+      <link>https://0ffy.github.io/posts/2025-03-11-physics/</link>
+      <pubDate>Tue, 11 Mar 2025 00:00:00 +0000</pubDate>
+      <guid>https://0ffy.github.io/posts/2025-03-11-physics/</guid>
+      <description>&lt;p&gt;This is a reference of physics mostly taken from the textbook &amp;ldquo;&lt;em&gt;University physics with modern physics&lt;/em&gt;&amp;rdquo;. 
+
+
+
+
+
+
+
+&lt;span class=&#34;hugo-cite-intext&#34;
+        itemprop=&#34;citation&#34;&gt;(&lt;span class=&#34;hugo-cite-group&#34;&gt;
+
+          &lt;a href=&#34;#uniphysics-bibref&#34;&gt;&lt;span class=&#34;visually-hidden&#34;&gt;Citation: &lt;/span&gt;&lt;span itemprop=&#34;author&#34; itemscope itemtype=&#34;https://schema.org/Person&#34;&gt;&lt;meta itemprop=&#34;givenName&#34; content=&#34;Hugh D&#34;&gt;&lt;span itemprop=&#34;familyName&#34;&gt;Young&lt;/span&gt;&lt;/span&gt;,&amp;#32;&lt;span itemprop=&#34;author&#34; itemscope itemtype=&#34;https://schema.org/Person&#34;&gt;&lt;meta itemprop=&#34;givenName&#34; content=&#34;Roger A&#34;&gt;&lt;span itemprop=&#34;familyName&#34;&gt;Freedman&lt;/span&gt;&lt;/span&gt;
+                  &lt;em&gt;&amp;amp; al.&lt;/em&gt;,&amp;#32;&lt;span itemprop=&#34;datePublished&#34;&gt;2011&lt;/span&gt;&lt;/a&gt;&lt;span class=&#34;hugo-cite-citation&#34;&gt; 
+
+
+
+
+
+
+
+
+
+
+&lt;span itemscope 
+      itemtype=&#34;https://schema.org/Book&#34;
+      data-type=&#34;book&#34;&gt;&lt;span itemprop=&#34;author&#34; itemscope itemtype=&#34;https://schema.org/Person&#34;&gt;&lt;span itemprop=&#34;familyName&#34;&gt;Young&lt;/span&gt;,&amp;#32;
+    &lt;meta itemprop=&#34;givenName&#34; content=&#34;Hugh D&#34; /&gt;
+    H.&lt;/span&gt;,&amp;#32;
+  &lt;span itemprop=&#34;author&#34; itemscope itemtype=&#34;https://schema.org/Person&#34;&gt;&lt;span itemprop=&#34;familyName&#34;&gt;Freedman&lt;/span&gt;,&amp;#32;
+    &lt;meta itemprop=&#34;givenName&#34; content=&#34;Roger A&#34; /&gt;
+    R.&lt;/span&gt;&amp;#32;&amp;amp;&amp;#32;&lt;span itemprop=&#34;author&#34; itemscope itemtype=&#34;https://schema.org/Person&#34;&gt;&lt;span itemprop=&#34;familyName&#34;&gt;Ford&lt;/span&gt;,&amp;#32;
+    &lt;meta itemprop=&#34;givenName&#34; content=&#34;A Lewis&#34; /&gt;
+    A.&lt;/span&gt;&amp;#32;
+    (&lt;span itemprop=&#34;datePublished&#34;&gt;2011&lt;/span&gt;).
+  &amp;#32;&lt;span itemprop=&#34;name&#34;&gt;
+    &lt;i&gt;University physics with modern physics 13th edition&lt;/i&gt;&lt;/span&gt;.
+  &amp;#32;
+  &lt;span itemprop=&#34;publisher&#34;
+             itemtype=&#34;http://schema.org/Organization&#34;
+             itemscope=&#34;&#34;&gt;
+    &lt;span itemprop=&#34;name&#34;&gt;Addison-Wesley Reading, MA&lt;/span&gt;&lt;/span&gt;.&lt;/span&gt;
+
+
+
+
+&lt;/span&gt;&lt;/span&gt;)&lt;/span&gt;
+&lt;/p&gt;
+&lt;h2 id=&#34;mechanics&#34;&gt;Mechanics&lt;/h2&gt;
+&lt;h3 id=&#34;newtons-laws&#34;&gt;Newton&amp;rsquo;s laws&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;(Inertia): an object will remain at rest or in uniform motion in a straight line unless acted upon by an external force.&lt;/li&gt;
+&lt;li&gt;($F=ma$) acceleration is caused by force.&lt;/li&gt;
+&lt;li&gt;(Reaction) for every action, there is an equal and opposite reaction.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;energies&#34;&gt;Energies&lt;/h3&gt;
+&lt;p&gt;Work is defined as the dot product of force and displacement: $W = \vec{F}\cdot\vec{s}$. For a constant force acting in the direction of a straight line, $W=Fs$. For varying forces $F=F(x)$ on a straight line, work is the integral of $F$ w.r.t. $x$:
+$$
+W = \int_{x_1}^{x_2}F(x)dx
+$$
+The SI unit of work is joule (J), $1 J = 1 N\cdot m$. From
+$$
+a=\frac{dv}{dt}=\frac{dv}{dx}\frac{dx}{dt}=v\cdot\frac{dv}{dx},
+$$
+the kinetic energy is defined as
+$$
+K = \int Fdx = \int madx = m\int v\frac{dv}{dx}dx = m\int vdv = \frac{1}{2}mv^2
+$$
+and the work-energy theorem is
+$$
+W_{\text{tot}} = K_2 - K_1 = \Delta K.
+$$&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
