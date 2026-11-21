@@ -14,10 +14,10 @@
     <lastBuildDate>Sun, 01 May 2022 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://0ffy.github.io/tags/flow/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Generative Models</title>
-      <link>https://0ffy.github.io/posts/2022-05-01-gen/</link>
+      <title>generative models</title>
+      <link>https://0ffy.github.io/posts/2022-05-gen/</link>
       <pubDate>Sun, 01 May 2022 00:00:00 +0000</pubDate>
-      <guid>https://0ffy.github.io/posts/2022-05-01-gen/</guid>
+      <guid>https://0ffy.github.io/posts/2022-05-gen/</guid>
       <description>&lt;p&gt;In ths post, several generative models in deep learning literature will be discussed, including adversarial networks (GANs), variational autoencoders (VAEs), flow models and energy based models (EBMs).&lt;/p&gt;
 &lt;p&gt;Deep generative models concern the problem of finding high dimensional data distribution, and new data generation. There are four major types of generative models in the literature: generative adversarial networks (GANs) 
 

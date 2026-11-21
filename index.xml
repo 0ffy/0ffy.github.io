@@ -11,13 +11,22 @@
     </image>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 11 Mar 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 21 Nov 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://0ffy.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Physics Reference</title>
-      <link>https://0ffy.github.io/posts/2025-03-11-physics/</link>
+      <title>audio and video data</title>
+      <link>https://0ffy.github.io/posts/2026-audio-video/</link>
+      <pubDate>Sat, 21 Nov 2026 00:00:00 +0000</pubDate>
+      <guid>https://0ffy.github.io/posts/2026-audio-video/</guid>
+      <description>&lt;h2 id=&#34;formatting&#34;&gt;Formatting&lt;/h2&gt;
+&lt;h3 id=&#34;wav&#34;&gt;.wav&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;.wav&lt;/code&gt; is a container format based on Microsoft/IBM’s Resource Interchange File Format (RIFF). It is primarily used to store uncompressed Pulse-Code Modulation (PCM) audios, offering the highest audio quality at the cost of large file sizes. Structurally, a &lt;code&gt;.wav&lt;/code&gt; file is organized as a sequence of chunks. Each chunk consists of a header identifying its type, a field specifying the size of its contents, and the corresponding data payload.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>physics reference</title>
+      <link>https://0ffy.github.io/posts/2025-physics/</link>
       <pubDate>Tue, 11 Mar 2025 00:00:00 +0000</pubDate>
-      <guid>https://0ffy.github.io/posts/2025-03-11-physics/</guid>
+      <guid>https://0ffy.github.io/posts/2025-physics/</guid>
       <description>&lt;p&gt;This is a reference of physics mostly taken from the textbook &amp;ldquo;&lt;em&gt;University physics with modern physics&lt;/em&gt;&amp;rdquo;. 
 
 
@@ -91,18 +100,18 @@ W_{\text{tot}} = K_2 - K_1 = \Delta K.
 $$&lt;/p&gt;</description>
     </item>
     <item>
-      <title>Black-Scholes Model</title>
-      <link>https://0ffy.github.io/posts/2024-11-26-black-scholes/</link>
+      <title>black-scholes model</title>
+      <link>https://0ffy.github.io/posts/2024-11-black-scholes/</link>
       <pubDate>Tue, 26 Nov 2024 00:00:00 +0000</pubDate>
-      <guid>https://0ffy.github.io/posts/2024-11-26-black-scholes/</guid>
+      <guid>https://0ffy.github.io/posts/2024-11-black-scholes/</guid>
       <description>&lt;h2 id=&#34;basics&#34;&gt;Basics&lt;/h2&gt;
 &lt;p&gt;An option is a financial contract that gives you the right (but not obligation) to buy or sell usually 100 shares of the underlying asset at a strike price $X$ at or before some specific date, usually Fridays. The price of an option is quoted on a &lt;em&gt;per share&lt;/em&gt; basis, for example 5.5 USD. To buy the option, you have to pay 5.5 x 100 = 550 USD. If the option later rises to 6.0 USD, you can sell the option and get a profit of (6-5.5) x 100 = 50 USD. For convenience, in this post we will omit the multiplier and hold our discussions on a per share basis.&lt;/p&gt;</description>
     </item>
     <item>
-      <title>Vision Models</title>
-      <link>https://0ffy.github.io/posts/2024-02-12-vision-models/</link>
+      <title>vision models</title>
+      <link>https://0ffy.github.io/posts/2024-02-vision-models/</link>
       <pubDate>Mon, 12 Feb 2024 00:00:00 +0000</pubDate>
-      <guid>https://0ffy.github.io/posts/2024-02-12-vision-models/</guid>
+      <guid>https://0ffy.github.io/posts/2024-02-vision-models/</guid>
       <description>&lt;h2 id=&#34;vision-understanding&#34;&gt;Vision Understanding&lt;/h2&gt;
 &lt;h3 id=&#34;vit&#34;&gt;ViT&lt;/h3&gt;
 &lt;p&gt;Vision Transformer (ViT) 
@@ -172,10 +181,10 @@ $$&lt;/p&gt;</description>
  applies the transformer architecture to vision inputs. Images are segmented to patches, and the patches are embedded as sequence of vectors, with patch ordering as position embedding. The figure below illustrates the architecture. The model achieves superior performance than convolutional neural networks (CNNs) in many tasks, and has become a basic component in other subsequent vision models. Refer to &lt;a href=&#34;https://github.com/lucidrains/vit-pytorch/blob/main/vit_pytorch/simple_vit.py&#34;&gt;@lucidrains/vit-pytorch&lt;/a&gt; for a simple implementation of ViT.&lt;/p&gt;</description>
     </item>
     <item>
-      <title>GPT and Transformers</title>
-      <link>https://0ffy.github.io/posts/2023-08-31-transformers/</link>
+      <title>gpt and transformers</title>
+      <link>https://0ffy.github.io/posts/2023-08-transformers/</link>
       <pubDate>Thu, 31 Aug 2023 00:00:00 +0000</pubDate>
-      <guid>https://0ffy.github.io/posts/2023-08-31-transformers/</guid>
+      <guid>https://0ffy.github.io/posts/2023-08-transformers/</guid>
       <description>&lt;p&gt;The release of ChatGPT on November 30, 2022 was a historical moment. In this post, GPT models are documented, along with several improvements over the transformer model.&lt;/p&gt;
 &lt;table&gt;
 	&lt;thead&gt;
@@ -265,10 +274,10 @@ L(\theta) = \sum_{i}\log \mathbb{P}_\theta(u_i \mid u_{i-k}\cdots u_{i-1})
 $$&lt;/p&gt;</description>
     </item>
     <item>
-      <title>Databases</title>
-      <link>https://0ffy.github.io/posts/2022-06-01-database/</link>
+      <title>databases</title>
+      <link>https://0ffy.github.io/posts/2022-06-database/</link>
       <pubDate>Wed, 01 Jun 2022 00:00:00 +0000</pubDate>
-      <guid>https://0ffy.github.io/posts/2022-06-01-database/</guid>
+      <guid>https://0ffy.github.io/posts/2022-06-database/</guid>
       <description>&lt;h2 id=&#34;sql&#34;&gt;SQL&lt;/h2&gt;
 &lt;p&gt;A database is a software for storing data. There are many many databases available. They can be broadly classified into two categories: one is relational database, including MySQL and PostgreSQL. They other category is non-relational database, including MongoDB, Cassandra, neo4j, Dgraph and many others. Here we are concerned with SQL, the common syntax for querying relational databases.&lt;/p&gt;
 &lt;h3 id=&#34;download-a-database&#34;&gt;Download a database&lt;/h3&gt;
@@ -276,10 +285,10 @@ $$&lt;/p&gt;</description>
 &lt;p&gt;To practice writing SQL queries, you need to install a database on your computer first. You can download either MySQL or PostgreSQL. Both are open sourced, but MySQL is more widely used than PostgreSQL. Notably, PostgreSQL has more data types and functions, so it is more powerful, but it is also more complex and more difficult to learn. Query syntax for the two databases are largely similar, but not entirely the same, especially for functions.&lt;/p&gt;</description>
     </item>
     <item>
-      <title>Generative Models</title>
-      <link>https://0ffy.github.io/posts/2022-05-01-gen/</link>
+      <title>generative models</title>
+      <link>https://0ffy.github.io/posts/2022-05-gen/</link>
       <pubDate>Sun, 01 May 2022 00:00:00 +0000</pubDate>
-      <guid>https://0ffy.github.io/posts/2022-05-01-gen/</guid>
+      <guid>https://0ffy.github.io/posts/2022-05-gen/</guid>
       <description>&lt;p&gt;In ths post, several generative models in deep learning literature will be discussed, including adversarial networks (GANs), variational autoencoders (VAEs), flow models and energy based models (EBMs).&lt;/p&gt;
 &lt;p&gt;Deep generative models concern the problem of finding high dimensional data distribution, and new data generation. There are four major types of generative models in the literature: generative adversarial networks (GANs) 
 
@@ -543,10 +552,10 @@ $$&lt;/p&gt;</description>
 . In the first three models, the approach to data generation is to make use of some &lt;em&gt;noise space&lt;/em&gt;, denoted as $\mathcal{Z}$. A mapping from the noise space to data space is learned, using training data and various training methods. To obtain a sample from the generative model, one first samples a noise vector $z$ from the noise space $\mathcal{Z}$, and then inputs the noise vector to the learned mapping, and obtains generated sample from the model output. Note that for many common distributions like Gaussian, samples can be generated as transformation of noises.&lt;/p&gt;</description>
     </item>
     <item>
-      <title>NLP Models</title>
-      <link>https://0ffy.github.io/posts/2022-03-01-nlp/</link>
+      <title>nlp models</title>
+      <link>https://0ffy.github.io/posts/2022-03-nlp/</link>
       <pubDate>Tue, 01 Mar 2022 00:00:00 +0000</pubDate>
-      <guid>https://0ffy.github.io/posts/2022-03-01-nlp/</guid>
+      <guid>https://0ffy.github.io/posts/2022-03-nlp/</guid>
       <description>&lt;p&gt;A &lt;em&gt;language model&lt;/em&gt; is a model that assigns probabilities to words and sentences. The probabilities should reflect word statistics in the training data. Probabilities can be very useful for many applications, e.g. for grammar correction,
 $$
 \mathbb{P}(\text{This }\textit{means}\text{ in particular}) &amp;gt; \mathbb{P}(\text{This }\textit{mean}\text{  in particular}).

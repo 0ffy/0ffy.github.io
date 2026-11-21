@@ -14,10 +14,10 @@
     <lastBuildDate>Mon, 12 Feb 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://0ffy.github.io/tags/transformer/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Vision Models</title>
-      <link>https://0ffy.github.io/posts/2024-02-12-vision-models/</link>
+      <title>vision models</title>
+      <link>https://0ffy.github.io/posts/2024-02-vision-models/</link>
       <pubDate>Mon, 12 Feb 2024 00:00:00 +0000</pubDate>
-      <guid>https://0ffy.github.io/posts/2024-02-12-vision-models/</guid>
+      <guid>https://0ffy.github.io/posts/2024-02-vision-models/</guid>
       <description>&lt;h2 id=&#34;vision-understanding&#34;&gt;Vision Understanding&lt;/h2&gt;
 &lt;h3 id=&#34;vit&#34;&gt;ViT&lt;/h3&gt;
 &lt;p&gt;Vision Transformer (ViT) 
@@ -87,10 +87,10 @@
  applies the transformer architecture to vision inputs. Images are segmented to patches, and the patches are embedded as sequence of vectors, with patch ordering as position embedding. The figure below illustrates the architecture. The model achieves superior performance than convolutional neural networks (CNNs) in many tasks, and has become a basic component in other subsequent vision models. Refer to &lt;a href=&#34;https://github.com/lucidrains/vit-pytorch/blob/main/vit_pytorch/simple_vit.py&#34;&gt;@lucidrains/vit-pytorch&lt;/a&gt; for a simple implementation of ViT.&lt;/p&gt;</description>
     </item>
     <item>
-      <title>GPT and Transformers</title>
-      <link>https://0ffy.github.io/posts/2023-08-31-transformers/</link>
+      <title>gpt and transformers</title>
+      <link>https://0ffy.github.io/posts/2023-08-transformers/</link>
       <pubDate>Thu, 31 Aug 2023 00:00:00 +0000</pubDate>
-      <guid>https://0ffy.github.io/posts/2023-08-31-transformers/</guid>
+      <guid>https://0ffy.github.io/posts/2023-08-transformers/</guid>
       <description>&lt;p&gt;The release of ChatGPT on November 30, 2022 was a historical moment. In this post, GPT models are documented, along with several improvements over the transformer model.&lt;/p&gt;
 &lt;table&gt;
 	&lt;thead&gt;

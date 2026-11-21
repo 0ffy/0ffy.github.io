@@ -14,10 +14,10 @@
     <lastBuildDate>Wed, 01 Jun 2022 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://0ffy.github.io/tags/sql/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Databases</title>
-      <link>https://0ffy.github.io/posts/2022-06-01-database/</link>
+      <title>databases</title>
+      <link>https://0ffy.github.io/posts/2022-06-database/</link>
       <pubDate>Wed, 01 Jun 2022 00:00:00 +0000</pubDate>
-      <guid>https://0ffy.github.io/posts/2022-06-01-database/</guid>
+      <guid>https://0ffy.github.io/posts/2022-06-database/</guid>
       <description>&lt;h2 id=&#34;sql&#34;&gt;SQL&lt;/h2&gt;
 &lt;p&gt;A database is a software for storing data. There are many many databases available. They can be broadly classified into two categories: one is relational database, including MySQL and PostgreSQL. They other category is non-relational database, including MongoDB, Cassandra, neo4j, Dgraph and many others. Here we are concerned with SQL, the common syntax for querying relational databases.&lt;/p&gt;
 &lt;h3 id=&#34;download-a-database&#34;&gt;Download a database&lt;/h3&gt;

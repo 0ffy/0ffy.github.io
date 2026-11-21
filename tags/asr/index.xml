@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Asr on 0ffy</title>
+    <link>https://0ffy.github.io/tags/asr/</link>
+    <description>Recent content in Asr on 0ffy</description>
+    <image>
+      <title>0ffy</title>
+      <url>https://0ffy.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://0ffy.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 21 Nov 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://0ffy.github.io/tags/asr/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>audio and video data</title>
+      <link>https://0ffy.github.io/posts/2026-audio-video/</link>
+      <pubDate>Sat, 21 Nov 2026 00:00:00 +0000</pubDate>
+      <guid>https://0ffy.github.io/posts/2026-audio-video/</guid>
+      <description>&lt;h2 id=&#34;formatting&#34;&gt;Formatting&lt;/h2&gt;
+&lt;h3 id=&#34;wav&#34;&gt;.wav&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;.wav&lt;/code&gt; is a container format based on Microsoft/IBM’s Resource Interchange File Format (RIFF). It is primarily used to store uncompressed Pulse-Code Modulation (PCM) audios, offering the highest audio quality at the cost of large file sizes. Structurally, a &lt;code&gt;.wav&lt;/code&gt; file is organized as a sequence of chunks. Each chunk consists of a header identifying its type, a field specifying the size of its contents, and the corresponding data payload.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -4,24 +4,36 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://0ffy.github.io/</loc>
-    <lastmod>2025-03-11T00:00:00+00:00</lastmod>
+    <lastmod>2026-11-21T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://0ffy.github.io/tags/asr/</loc>
+    <lastmod>2026-11-21T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://0ffy.github.io/tags/audio/</loc>
+    <lastmod>2026-11-21T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://0ffy.github.io/posts/2026-audio-video/</loc>
+    <lastmod>2026-11-21T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://0ffy.github.io/posts/</loc>
+    <lastmod>2026-11-21T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://0ffy.github.io/tags/</loc>
+    <lastmod>2026-11-21T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://0ffy.github.io/tags/video/</loc>
+    <lastmod>2026-11-21T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://0ffy.github.io/tags/physics/</loc>
     <lastmod>2025-03-11T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://0ffy.github.io/posts/2025-03-11-physics/</loc>
-    <lastmod>2025-03-11T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://0ffy.github.io/posts/</loc>
-    <lastmod>2025-03-11T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://0ffy.github.io/tags/</loc>
+    <loc>https://0ffy.github.io/posts/2025-physics/</loc>
     <lastmod>2025-03-11T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://0ffy.github.io/tags/black-scholes/</loc>
     <lastmod>2024-11-26T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://0ffy.github.io/posts/2024-11-26-black-scholes/</loc>
+    <loc>https://0ffy.github.io/posts/2024-11-black-scholes/</loc>
     <lastmod>2024-11-26T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://0ffy.github.io/tags/option/</loc>
@@ -36,16 +48,13 @@
     <loc>https://0ffy.github.io/tags/vision/</loc>
     <lastmod>2024-02-12T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://0ffy.github.io/posts/2024-02-12-vision-models/</loc>
+    <loc>https://0ffy.github.io/posts/2024-02-vision-models/</loc>
     <lastmod>2024-02-12T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://0ffy.github.io/tags/attention/</loc>
     <lastmod>2023-08-31T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://0ffy.github.io/posts/2023-08-31-transformers/</loc>
-    <lastmod>2023-08-31T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://0ffy.github.io/tags/llama/</loc>
+    <loc>https://0ffy.github.io/posts/2023-08-transformers/</loc>
     <lastmod>2023-08-31T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://0ffy.github.io/tags/llm/</loc>
@@ -54,7 +63,7 @@
     <loc>https://0ffy.github.io/tags/database/</loc>
     <lastmod>2022-06-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://0ffy.github.io/posts/2022-06-01-database/</loc>
+    <loc>https://0ffy.github.io/posts/2022-06-database/</loc>
     <lastmod>2022-06-01T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://0ffy.github.io/tags/sql/</loc>
@@ -66,7 +75,7 @@
     <loc>https://0ffy.github.io/tags/gan/</loc>
     <lastmod>2022-05-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://0ffy.github.io/posts/2022-05-01-gen/</loc>
+    <loc>https://0ffy.github.io/posts/2022-05-gen/</loc>
     <lastmod>2022-05-01T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://0ffy.github.io/tags/vae/</loc>
@@ -75,7 +84,7 @@
     <loc>https://0ffy.github.io/tags/nlp/</loc>
     <lastmod>2022-03-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://0ffy.github.io/posts/2022-03-01-nlp/</loc>
+    <loc>https://0ffy.github.io/posts/2022-03-nlp/</loc>
     <lastmod>2022-03-01T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://0ffy.github.io/archives/</loc>
